@@ -1,2 +1,1 @@
-# Si vous voulez run le front : 
-# npm install --build-from-source
+Le back office tourne sur localhost 3000
