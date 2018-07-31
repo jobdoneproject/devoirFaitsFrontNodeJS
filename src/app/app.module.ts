@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, FormControlDirective, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from "./services/auth.service";
+import { AuthGuard } from './shared/auth.guard';
 import { HttpModule} from "@angular/http";
 import { AccountService} from "./services/account.service";
 import { routing} from "./app.routing";
@@ -53,6 +54,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { ProfilUserComponent } from './components/profil-user/profil-user.component';
 
+import { SDKBrowserModule } from './shared/sdk';
+
 
 @NgModule({
   declarations: [
@@ -101,15 +104,17 @@ import { ProfilUserComponent } from './components/profil-user/profil-user.compon
     BrowserAnimationsModule,
     MatInputModule,
     UploaderModule.forRoot(),
+    SDKBrowserModule.forRoot(),
     MatSelectModule
   ],
   providers: [
-    AuthService,
-    AccountService,
-    UrlPermission,
-    UserService,
-    CreneauService,
-    RoomService
+      AuthService,
+      AuthGuard,
+      AccountService,
+      UrlPermission,
+      UserService,
+      CreneauService,
+      RoomService
   ],
   bootstrap: [AppComponent]
 })

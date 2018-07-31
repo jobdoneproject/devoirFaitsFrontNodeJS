@@ -1,5 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 
+import {AuthGuard} from '../app/shared/auth.guard';
+
 import { LoginComponent } from "./components/login/login.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { ProfileComponent } from "./components/profile/profile.component";
@@ -29,7 +31,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'profile',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: ProfileComponent, outlet: 'connected' }]
   },
   {

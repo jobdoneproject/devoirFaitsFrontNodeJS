@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {User} from "../../model/model.user";
-import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
+import { Utilisateur, AccessToken } from '../../shared/sdk/models';
+import { UtilisateurApi } from '../../shared/sdk/services';
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -11,9 +11,12 @@ import {Router} from "@angular/router";
   encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
-  user: User = new User();
+
+  user: Utilisateur = new Utilisateur();
   errorMessage: string;
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+      private userApi: UtilisateurApi,
+      private router: Router) { }
 
 
 
@@ -22,12 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    this.authService.logIn(this.user)
-      .subscribe(data => {
-        this.router.navigate(['/profile']);
-        },err=>{
-        this.errorMessage="error :  Username or password is incorrect";
-        }
-      )
+      this.userApi.login(this.user).subscribe(
+          (token: AccessToken) => this.router.navigate(['/profile']),
+          err => alert(err.message)
+      );
   }
 }

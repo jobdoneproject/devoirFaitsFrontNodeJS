@@ -2,7 +2,7 @@ export class User {
   idUtilisateur : number;
   nom: string='';
   prenom: string='';
-  mail: string='';
+  email: string='';
   password: string='';
   disponible: boolean;
   actif: boolean;

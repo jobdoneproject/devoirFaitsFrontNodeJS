@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../model/model.user";
+import { Utilisateur, AccessToken } from '../../shared/sdk/models';
 import {Router} from "@angular/router";
 import { WeekUtils } from '../../utils/WeekUtils';
 import * as moment from "moment";
@@ -18,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 export class ProfileComponent implements OnInit {
   title:string = "Vue du calendrier" ;
 
-  currentUser: User;
+  currentUser: Utilisateur;
   referenceDate: Date;
   weekNumber: number;
   year: number;

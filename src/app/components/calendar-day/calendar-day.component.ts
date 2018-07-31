@@ -77,10 +77,10 @@ export class CalendarDayComponent implements OnInit {
         weMustKeepIt = true;
       } 
       else if (user.privilege === "Professeur"){
-        weMustKeepIt = _.findWhere(currentSlot.professeurs, {mail: user.mail});
+        weMustKeepIt = _.findWhere(currentSlot.professeurs, {mail: user.email});
       }
       else {
-        weMustKeepIt = _.findWhere(currentSlot.eleves, {mail: user.mail});
+        weMustKeepIt = _.findWhere(currentSlot.eleves, {mail: user.email});
       }
 
       return weMustKeepIt;

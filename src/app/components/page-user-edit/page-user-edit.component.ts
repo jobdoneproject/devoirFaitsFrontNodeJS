@@ -79,7 +79,7 @@ export class PageUserEditComponent implements OnInit {
     this.editedUser.idEtablissement = this.currentUser.idEtablissement;
     this.editedUser.nom = null;
     this.editedUser.prenom = null;
-    this.editedUser.mail = null;
+    this.editedUser.email = null;
     this.editedUser.classe = null;
     this.editedUser.password = null;
     this.editedUser.telephone = null;

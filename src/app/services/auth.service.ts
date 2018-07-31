@@ -13,14 +13,15 @@ export class AuthService {
 
     let headers = new Headers();
     headers.append('Accept', 'application/json')
+      headers.append('Content-Type', 'application/json')
     // creating base64 encoded String from user name and password
-    var base64Credential: string = btoa( user.mail+ ':' + user.password);
+    var base64Credential: string = btoa( user.email+ ':' + user.password);
     headers.append("Authorization", "Basic " + base64Credential);
 
     let options = new RequestOptions();
     options.headers=headers;
 
-    return this.http.get(environment.API_URL+"/account/login" ,   options)
+    return this.http.post(environment.API_URL+"/utilisateurs/login" ,   options)
       .pipe(map((response: Response) => {
       // login successful if there's a jwt token in the response
       let user = response.json().principal;// the returned user object is a principal object

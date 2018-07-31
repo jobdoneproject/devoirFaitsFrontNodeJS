@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 
 //import { NavBarLinksService } from '../../services/nav-bar-links.service';
 import {AuthService} from "../../services/auth.service";
+import { AuthGuard } from '../../shared/auth.guard';
 import {User} from "../../model/model.user";
+import { Utilisateur, AccessToken } from '../../shared/sdk/models';
 import {Router} from "@angular/router";
 import * as $ from 'jquery';
 import { map} from 'rxjs/operators';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import {environment} from '../../../environments/environment';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
-import {UserService} from "../../services/user.service";
+import {UtilisateurApi} from "../../shared/sdk";
 
 
 @Component({
@@ -20,15 +22,15 @@ import {UserService} from "../../services/user.service";
 export class ContainerNavbarComponent implements OnInit {
 
   nomEtablissement: String;
-  currentUser: User;
+  currentUser: Utilisateur;
   administrateur: boolean;
   professeur: boolean;
   eleve: boolean;
   url:string;
   etablissements: Observable<any> ;
   
-  constructor(private userService: UserService, public authService: AuthService, public router: Router,private http: Http) {
-    this.currentUser = this.userService.getCurrentUserLogged();
+  constructor(private userService: UtilisateurApi, public authService: AuthGuard, public router: Router,private http: Http) {
+    this.currentUser = this.userService.getCachedCurrent();
     if (this.currentUser.privilege == "Administrateur"){
       this.administrateur = true;
     }else if (this.currentUser.privilege == "Professeur"){
@@ -62,7 +64,7 @@ export class ContainerNavbarComponent implements OnInit {
 
   // login out from the app
   logOut() {
-    this.authService.logOut()
+    this.userService.logout()
       /*.subscribe(
         data => {
           this.router.navigate(['/login']);
