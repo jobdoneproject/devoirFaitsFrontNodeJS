@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Utilisateur, AccessToken } from '../../shared/sdk/models';
 import { UtilisateurApi } from '../../shared/sdk/services';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,10 +21,10 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {
-    
+
   }
 
-  login(){
+  login() {
       this.userApi.login(this.user).subscribe(
           (token: AccessToken) => this.router.navigate(['/profile']),
           err => alert(err.message)

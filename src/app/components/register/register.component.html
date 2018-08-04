@@ -36,7 +36,7 @@
                   </div>
                   <div class="form-group">
                   <label for="exampleInputEmail1">Email organisateur</label>
-                  <input type="email" class="form-control" name="mail" id="mail" [(ngModel)]="user.mail"   #mail="ngModel" 
+                  <input type="email" class="form-control" name="email" id="mail" [(ngModel)]="user.email"   #mail="ngModel"
                   pattern="[^ @]*@[^ @]*" required />
                   <div *ngIf="f.submitted && !mail.valid" class="help-block">L'email de l'organisateur est requis !</div>
                   <i class="mdi mdi-account"></i>

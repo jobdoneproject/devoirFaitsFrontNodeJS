@@ -3,6 +3,9 @@ import { AuthService } from "../../services/auth.service";
 import { User } from "../../model/model.user";
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import {UserService} from "../../services/user.service";
+import {UtilisateurApi} from '../../shared/sdk';
+import { Utilisateur, AccessToken } from '../../shared/sdk/models';
+import {AuthGuard} from '../../shared/auth.guard';
 
 
 
@@ -12,12 +15,12 @@ import {UserService} from "../../services/user.service";
   styleUrls: ['./container.component.css']
 })
 export class ContainerComponent implements OnInit {
-  currentUser: User;
+  currentUser: Utilisateur;
 
 
-  constructor(private userService: UserService, public authService: AuthService) { 
-
-    this.currentUser = this.userService.getCurrentUserLogged();
+  constructor(private userService: UtilisateurApi, public authService: AuthGuard) {
+      this.currentUser = new Utilisateur();
+    //this.currentUser = this.userService.getCurrent();
 
      
     

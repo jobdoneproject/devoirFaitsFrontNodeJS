@@ -22,35 +22,38 @@ import {UtilisateurApi} from "../../shared/sdk";
 export class ContainerNavbarComponent implements OnInit {
 
   nomEtablissement: String;
+  etablissement: string;
+  idEtablissement: string;
   currentUser: Utilisateur;
   administrateur: boolean;
   professeur: boolean;
   eleve: boolean;
   url:string;
   etablissements: Observable<any> ;
-  
+
   constructor(private userService: UtilisateurApi, public authService: AuthGuard, public router: Router,private http: Http) {
     this.currentUser = this.userService.getCachedCurrent();
     if (this.currentUser.privilege == "Administrateur"){
       this.administrateur = true;
-    }else if (this.currentUser.privilege == "Professeur"){
+    }else if (this.currentUser.privilege == 'Professeur'){
       this.professeur = true;
     }else{
       this.eleve = true;
     }
-    this.url = environment.API_URL+"/etablissement/"+this.currentUser.idEtablissement;
-     this.etablissements = this.http.get(this.url).pipe(map((resp: Response)=>resp.json()));
+    // @ts-ignore
+      this.etablissement = this.currentUser.numero_uai;
+      console.log(this.currentUser);
+      console.log('Etablissements: ' + this.currentUser.numero_uai);
+    this.url = environment.API_URL + '/Etablissements/' + this.etablissement;
+     this.etablissements = this.http.get(this.url).pipe(map((resp: Response) => resp.json()));
 
     this.etablissements.forEach(etablissement => {
       this.nomEtablissement = etablissement.nomEtablissement;
 
     });
-  }  
+  }
 
-  
-
-  
-  ngOnInit() {
+ngOnInit() {
     (function($) {
       'use strict';
       $(function() {
@@ -59,7 +62,7 @@ export class ContainerNavbarComponent implements OnInit {
         });
       });
     })(jQuery);
-  
+
   }
 
   // login out from the app

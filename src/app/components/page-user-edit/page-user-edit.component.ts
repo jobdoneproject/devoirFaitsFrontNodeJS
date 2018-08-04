@@ -8,6 +8,8 @@ import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UtilsService } from '../../services/utils.service';
 import { UserService } from '../../services/user.service';
+import {UtilisateurApi} from '../../shared/sdk';
+import {AuthGuard} from '../../shared/auth.guard';
 import {
   ReactiveFormsModule,
   FormsModule,

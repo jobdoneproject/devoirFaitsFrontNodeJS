@@ -9,6 +9,9 @@ import { Observable } from 'rxjs/Observable';
 import { CreneauService } from '../../services/creneau.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../model/model.user';
+import {UtilisateurApi} from "../../shared/sdk";
+import { AuthGuard } from '../../shared/auth.guard';
+import { Utilisateur, AccessToken } from '../../shared/sdk/models';
 
 @Component({
   selector: 'week-calendar',
@@ -36,8 +39,8 @@ export class CalendarComponent implements OnInit {
     Dimanche: WeekDay.Dimanche
   };
 
-  constructor(private userService : UserService, private coursesSlotService: CourseSlotsService, private creneauService: CreneauService) {
-    this.currentUser = this.userService.getCurrentUserLogged();
+  constructor(private userService : UtilisateurApi, private coursesSlotService: CourseSlotsService, private creneauService: CreneauService) {
+    this.currentUser = this.userService.getCachedCurrent();
     this.courseSlotsObservable = coursesSlotService.fetchSlots(this.currentUser.idEtablissement, this.year, this.weekNumber);
   }
 

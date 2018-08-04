@@ -8,6 +8,8 @@ import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UtilsService } from '../../services/utils.service';
 import { UserService } from '../../services/user.service';
+import {UtilisateurApi} from '../../shared/sdk';
+import {AuthGuard} from '../../shared/auth.guard';
 import {
   ReactiveFormsModule,
   FormsModule,
@@ -32,31 +34,30 @@ export class ProfilUserComponent implements OnInit {
   //utilisateurs: Observable<User>;
 
   constructor(
-    public authService: AuthService,
+    public authService: AuthGuard,
     public router: Router,
     public http: Http,
     public route: ActivatedRoute,
-    public userService: UserService,
+    public userService: UtilisateurApi,
     private formBuilder: FormBuilder,
   ) {
-
+/**
     // Vérif user Administrateur :
-    this.currentUser = this.userService.getCurrentUserLogged();
-    if (this.currentUser.privilege == "Administrateur") {
+    this.currentUser = this.userService.getCachedCurrent();
+    if (this.currentUser.privilege == 'Administrateur') {
       this.administrateur = true;
       this.editedUser = this.currentUser;
     } else {
     this.userService.getUser(this.currentUser.privilege.toLowerCase(), this.currentUser.idEtablissement, this.currentUser.idUtilisateur)
     .map((value: User) => { this.editedUser = value; })
     .subscribe();
-    }
+    }**/
   }
 
   ngOnInit() {
 
   }
-
-  onReset() {
+/**nReset() {
     this.router.navigate(['profile']);
   }
 
@@ -74,7 +75,7 @@ export class ProfilUserComponent implements OnInit {
       this.router.navigate(['liste/' + this.typeUtilisateur]);
     }
   }
-
+**/
   doTheBack() {
     window.history.back();
   }

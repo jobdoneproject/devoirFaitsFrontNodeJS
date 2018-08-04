@@ -8,6 +8,8 @@ import {AuthService} from "../../services/auth.service";
 import { Observable } from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {UserService} from "../../services/user.service";
+import {UtilisateurApi} from "../../shared/sdk";
+import { AuthGuard } from '../../shared/auth.guard';
 
 
 @Component({
@@ -24,8 +26,8 @@ export class ContainerSidebarComponent implements OnInit {
   url: string;
   listEleve: Observable<any>;
 
-  constructor(private userService: UserService, public authService: AuthService, public router: Router,private http: Http) { 
-    this.currentUser = this.userService.getCurrentUserLogged();
+  constructor(private userService: UtilisateurApi, public authService: AuthGuard, public router: Router,private http: Http) {
+    this.currentUser = this.userService.getCachedCurrent();
     this.idEtablissement = this.currentUser.idEtablissement;
     if (this.currentUser.privilege == "Administrateur"){
       
