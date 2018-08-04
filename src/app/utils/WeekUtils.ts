@@ -1,5 +1,5 @@
-import { WeekDay } from "../model/model.week-day";
-import * as moment from "moment";
+import { WeekDay } from '../model/model.week-day';
+import * as moment from 'moment';
 
 
 export class WeekUtils {

@@ -1,12 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import {AuthGuard} from '../app/shared/auth.guard';
+import {AuthGuard} from './shared/auth.guard';
 
-import { LoginComponent } from "./components/login/login.component";
-import { RegisterComponent } from "./components/register/register.component";
-import { ProfileComponent } from "./components/profile/profile.component";
-import { UrlPermission } from "./urlPermission/url.permission";
-import { ListeUtilisateurComponent } from "./components/liste-utilisateur/liste-utilisateur.component"
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { UrlPermission } from './urlPermission/url.permission';
+import { ListeUtilisateurComponent } from './components/liste-utilisateur/liste-utilisateur.component'
 import { PageLandingComponent } from './components/page-landing/page-landing.component';
 import { PageUserEditComponent } from './components/page-user-edit/page-user-edit.component';
 import { ContainerComponent } from './components/container/container.component';
@@ -20,7 +20,9 @@ import { ListeAppelComponent } from './components/liste-appel/liste-appel.compon
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { ProfilUserComponent } from './components/profil-user/profil-user.component';
 
+
 const appRoutes: Routes = [
+
   { path: 'bienvenue', component: PageLandingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
