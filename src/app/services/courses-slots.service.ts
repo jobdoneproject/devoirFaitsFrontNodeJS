@@ -16,8 +16,8 @@ export class CourseSlotsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  fetchSlots(id: number, year: number, week:number): Observable<CourseSlot []>
+  fetchSlots(id: string, year: number, week: number): Observable<CourseSlot []>
   {
-    return this.httpClient.get<CourseSlot []>(environment.API_URL + "/etablissements/" + id + "/creneaux?year="+ year + "&week=" + week );
+    return this.httpClient.get<CourseSlot []>(environment.API_URL + '/Etablissements/' + id + '/creneaux?year=' + year + '&week=' + week );
   }
 }

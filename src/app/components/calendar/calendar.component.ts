@@ -9,9 +9,9 @@ import { Observable } from 'rxjs/Observable';
 import { CreneauService } from '../../services/creneau.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../model/model.user';
+import { Utilisateur, AccessToken } from '../../shared/sdk/models';
 import {UtilisateurApi} from "../../shared/sdk";
 import { AuthGuard } from '../../shared/auth.guard';
-import { Utilisateur, AccessToken } from '../../shared/sdk/models';
 
 @Component({
   selector: 'week-calendar',
@@ -20,8 +20,8 @@ import { Utilisateur, AccessToken } from '../../shared/sdk/models';
 })
 export class CalendarComponent implements OnInit {
 
-  currentUser : User;
-  cancelDeleteSlot : any;
+    currentUser: Utilisateur;
+  cancelDeleteSlot: any;
   @Input() year: number;
   @Input() weekNumber: number;
   ngOnChanges(weekNumber: number) {
@@ -39,13 +39,13 @@ export class CalendarComponent implements OnInit {
     Dimanche: WeekDay.Dimanche
   };
 
-  constructor(private userService : UtilisateurApi, private coursesSlotService: CourseSlotsService, private creneauService: CreneauService) {
-    this.currentUser = this.userService.getCachedCurrent();
-    this.courseSlotsObservable = coursesSlotService.fetchSlots(this.currentUser.idEtablissement, this.year, this.weekNumber);
+  constructor(private userService: UtilisateurApi, private coursesSlotService: CourseSlotsService, private creneauService: CreneauService) {
+      this.currentUser = this.userService.getCachedCurrent();
+    this.courseSlotsObservable = coursesSlotService.fetchSlots(this.currentUser.numero_uai, this.year, this.weekNumber);
   }
 
   updateSlots() {
-    this.courseSlotsObservable = this.coursesSlotService.fetchSlots(this.currentUser.idEtablissement, this.year, this.weekNumber);
+    this.courseSlotsObservable = this.coursesSlotService.fetchSlots(this.currentUser.numero_uai, this.year, this.weekNumber);
   }
 
   ngOnInit() {
@@ -53,7 +53,7 @@ export class CalendarComponent implements OnInit {
   }
 
   cancelDeleteAction () {
-    this.creneauService.postSlot( this.cancelDeleteSlot, this.currentUser.idEtablissement)
+    this.creneauService.postSlot( this.cancelDeleteSlot, this.currentUser.numero_uai)
     this.updateSlots();
     this.cancelDeleteSlot = null;
   }

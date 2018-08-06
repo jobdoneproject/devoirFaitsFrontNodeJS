@@ -5,6 +5,8 @@ import { WeekUtils } from '../../utils/WeekUtils';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../../model/model.user';
 import { UserService } from '../../services/user.service';
+import {UtilisateurApi} from '../../shared/sdk';
+import { Utilisateur, AccessToken } from '../../shared/sdk/models';
 import * as moment from 'moment';
 import * as _ from 'underscore';
 
@@ -22,29 +24,29 @@ export class CalendarDayComponent implements OnInit {
   @Input() weekNumber: number;
   @Input() year: number;
   @Output() onDeleteEvent = new EventEmitter();
-  currentUser: User;
+  currentUser: Utilisateur;
 
   ngOnChanges(weekNumber: number) {
     this.ngOnInit();
   }
 
-  constructor(userService: UserService) {
-    this.currentUser = userService.getCurrentUserLogged();
+  constructor(private userService: UtilisateurApi) {
+    this.currentUser = this.userService.getCachedCurrent();
   }
 
   ngOnInit() {
     this.courseSlotsObservable.subscribe((resp) => {
-      this.courseSlots = resp;  
+      this.courseSlots = resp;
       this.filterSlotsMatchingThisDay();
       this.filterSlotsMatchingCurrentUser();
     });
   }
 
-  get dayDate() : Date {
-   return this.currentDate(); 
+  get dayDate(): Date {
+   return this.currentDate();
   }
 
-  private currentDate() : Date 
+  private currentDate(): Date
   {
     const mondayForCurrentWeek = WeekUtils.mondayForWeekNumber(this.weekNumber, this.year);
     const matchingDate = WeekUtils.getDateWithDaysOffset(mondayForCurrentWeek, WeekUtils.dayOfWeekDay(this.day));
@@ -67,19 +69,16 @@ export class CalendarDayComponent implements OnInit {
   receiveUpdateOnDeleteSlot(slot: any) {
     this.onDeleteEvent.emit(slot);
   }
-  
   filterSlotsMatchingCurrentUser() {
     const user = this.currentUser;
     this.courseSlots = _.filter(this.courseSlots, (currentSlot) => {
       let weMustKeepIt;
 
-      if (user.privilege === "Administrateur"){
+      if (user.privilege === 'Administrateur'){
         weMustKeepIt = true;
-      } 
-      else if (user.privilege === "Professeur"){
+      } else if (user.privilege === 'Professeur'){
         weMustKeepIt = _.findWhere(currentSlot.professeurs, {mail: user.email});
-      }
-      else {
+      } else {
         weMustKeepIt = _.findWhere(currentSlot.eleves, {mail: user.email});
       }
 

@@ -11,7 +11,7 @@ import { map} from 'rxjs/operators';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import {environment} from '../../../environments/environment';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
-import {UtilisateurApi} from "../../shared/sdk";
+import {UtilisateurApi} from '../../shared/sdk';
 
 
 @Component({
@@ -42,8 +42,6 @@ export class ContainerNavbarComponent implements OnInit {
     }
     // @ts-ignore
       this.etablissement = this.currentUser.numero_uai;
-      console.log(this.currentUser);
-      console.log('Etablissements: ' + this.currentUser.numero_uai);
     this.url = environment.API_URL + '/Etablissements/' + this.etablissement;
      this.etablissements = this.http.get(this.url).pipe(map((resp: Response) => resp.json()));
 
