@@ -1,7 +1,6 @@
 /* tslint:disable */
 export * from './Message';
 export * from './Utilisateur';
-export * from './Classe';
 export * from './Salle';
 export * from './Creneau';
 export * from './Groupe';

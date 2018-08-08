@@ -1,6 +1,8 @@
 /* tslint:disable */
 import {
-  Utilisateur
+  Utilisateur,
+  Salle,
+  Creneau
 } from '../index';
 
 declare var Object: any;
@@ -34,6 +36,8 @@ export interface EtablissementInterface {
   "libelle_academie"?: string;
   "position"?: Array<any>;
   utilisateurs?: Utilisateur[];
+  Salles?: Salle[];
+  creneaux?: Creneau[];
 }
 
 export class Etablissement implements EtablissementInterface {
@@ -66,6 +70,8 @@ export class Etablissement implements EtablissementInterface {
   "libelle_academie": string;
   "position": Array<any>;
   utilisateurs: Utilisateur[];
+  Salles: Salle[];
+  creneaux: Creneau[];
   constructor(data?: EtablissementInterface) {
     Object.assign(this, data);
   }
@@ -220,6 +226,22 @@ export class Etablissement implements EtablissementInterface {
           relationType: 'hasMany',
                   keyFrom: 'numero_uai',
           keyTo: 'numero_uai'
+        },
+        Salles: {
+          name: 'Salles',
+          type: 'Salle[]',
+          model: 'Salle',
+          relationType: 'hasMany',
+                  keyFrom: 'numero_uai',
+          keyTo: 'etablissementId'
+        },
+        creneaux: {
+          name: 'creneaux',
+          type: 'Creneau[]',
+          model: 'Creneau',
+          relationType: 'hasMany',
+                  keyFrom: 'numero_uai',
+          keyTo: 'etablissementId'
         },
       }
     }

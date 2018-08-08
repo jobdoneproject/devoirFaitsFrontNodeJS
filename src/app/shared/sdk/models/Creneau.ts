@@ -1,4 +1,7 @@
 /* tslint:disable */
+import {
+  Salle
+} from '../index';
 
 declare var Object: any;
 export interface CreneauInterface {
@@ -6,6 +9,8 @@ export interface CreneauInterface {
   "dateFin": Date;
   "id"?: any;
   "salleId"?: any;
+  "etablissementId"?: string;
+  salle?: Salle;
 }
 
 export class Creneau implements CreneauInterface {
@@ -13,6 +18,8 @@ export class Creneau implements CreneauInterface {
   "dateFin": Date;
   "id": any;
   "salleId": any;
+  "etablissementId": string;
+  salle: Salle;
   constructor(data?: CreneauInterface) {
     Object.assign(this, data);
   }
@@ -62,8 +69,20 @@ export class Creneau implements CreneauInterface {
           name: 'salleId',
           type: 'any'
         },
+        "etablissementId": {
+          name: 'etablissementId',
+          type: 'string'
+        },
       },
       relations: {
+        salle: {
+          name: 'salle',
+          type: 'Salle',
+          model: 'Salle',
+          relationType: 'belongsTo',
+                  keyFrom: 'salleId',
+          keyTo: 'id'
+        },
       }
     }
   }

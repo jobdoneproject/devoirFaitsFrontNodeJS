@@ -10,6 +10,8 @@ import { UtilsService } from '../../services/utils.service';
 import { UserService } from '../../services/user.service';
 import {UtilisateurApi} from '../../shared/sdk';
 import {AuthGuard} from '../../shared/auth.guard';
+import {Utilisateur} from '../../shared/sdk/models';
+
 import {
   ReactiveFormsModule,
   FormsModule,
@@ -27,9 +29,9 @@ import {
 })
 export class PageUserEditComponent implements OnInit {
 
-  editedUser: User;
+  editedUser: Utilisateur;
 
-   currentUser: User;
+   currentUser: Utilisateur;
    administrateur: boolean;
    typeUtilisateur:string;
    idUtilisateur: number;
@@ -37,16 +39,16 @@ export class PageUserEditComponent implements OnInit {
    //utilisateurs: Observable<User>;
 
   constructor(
-    public authService: AuthService,
+    public authService: AuthGuard,
     public router: Router,
     public http: Http,
     public route: ActivatedRoute,
-    public userService: UserService,
+    public userService: UtilisateurApi,
     private formBuilder: FormBuilder,
   ) {
 
     // Vérif user Administrateur :
-    this.currentUser = this.userService.getCurrentUserLogged();
+    this.currentUser = this.userService.getCachedCurrent();
 
     if (this.currentUser.privilege == "Administrateur"){
       this.administrateur = true;
@@ -70,9 +72,9 @@ export class PageUserEditComponent implements OnInit {
 
   }
 
-  initUser(){
+  initUser() {
     this.userService.getUser(this.typeUtilisateur, this.currentUser.idEtablissement, this.idUtilisateur)
-      .map((value: User) => {this.editedUser = value;})
+      .map((value: User) => {this.editedUser = value; })
       .subscribe();
   }
 
@@ -108,7 +110,7 @@ export class PageUserEditComponent implements OnInit {
   }
 
   onSupress() {
-    if(confirm("Voulez-vous vraiment supprimer "+ this.editedUser.nom + " " + this.editedUser.prenom + " ?")){
+    if(confirm('Voulez-vous vraiment supprimer '+ this.editedUser.nom + " " + this.editedUser.prenom + " ?")){
       this.userService.deleteUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.idUtilisateur);
       console.log("Form Suppress!");
       this.router.navigate(['liste/' + this.typeUtilisateur]);

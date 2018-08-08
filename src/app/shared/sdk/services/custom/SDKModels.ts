@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { Message } from '../../models/Message';
 import { Utilisateur } from '../../models/Utilisateur';
-import { Classe } from '../../models/Classe';
 import { Salle } from '../../models/Salle';
 import { Creneau } from '../../models/Creneau';
 import { Groupe } from '../../models/Groupe';
@@ -19,7 +18,6 @@ export class SDKModels {
   private models: Models = {
     Message: Message,
     Utilisateur: Utilisateur,
-    Classe: Classe,
     Salle: Salle,
     Creneau: Creneau,
     Groupe: Groupe,

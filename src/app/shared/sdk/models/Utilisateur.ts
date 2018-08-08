@@ -10,8 +10,9 @@ export interface UtilisateurInterface {
   "privilege": string;
   "ville": string;
   "disponible": boolean;
+  "classeName": boolean;
   "actif": boolean;
-  "telephone": string;
+  "telephone"?: string;
   "realm"?: string;
   "username"?: string;
   "email": string;
@@ -29,6 +30,7 @@ export class Utilisateur implements UtilisateurInterface {
   "privilege": string;
   "ville": string;
   "disponible": boolean;
+  "classeName": boolean;
   "actif": boolean;
   "telephone": string;
   "realm": string;
@@ -91,6 +93,10 @@ export class Utilisateur implements UtilisateurInterface {
         },
         "disponible": {
           name: 'disponible',
+          type: 'boolean'
+        },
+        "classeName": {
+          name: 'classeName',
           type: 'boolean'
         },
         "actif": {

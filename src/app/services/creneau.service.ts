@@ -63,7 +63,7 @@ export class CreneauService {
     }
 
     prepareEditedTimeSlot(idCreneau: number, debut: number, fin: number, eleves: User[], profs: User[],
-                          salle: Room, idEtablissement: number) {
+                          salle: Room, idEtablissement: string) {
         const editedTimeSlot: CourseSlot = {
             idCreneau: null, dateDebut: 0, dateFin: 0,
             professeurs: [], eleves: [], salle: null
@@ -77,7 +77,7 @@ export class CreneauService {
         this.putSlot(editedTimeSlot, idEtablissement, idCreneau)
     }
 
-    putSlot(editedCreneau: CourseSlot, idEtablissement: number, idCreneau: number) {
+    putSlot(editedCreneau: CourseSlot, idEtablissement: string, idCreneau: number) {
         const headers = new Headers({'Content-Type': 'application/json'});
         const options = new RequestOptions({headers: headers});
         const body = JSON.stringify(editedCreneau);
@@ -92,7 +92,7 @@ export class CreneauService {
         });
     }
 
-    deleteSelected(idEtablissement: number, id: number) {
+    deleteSelected(idEtablissement: string, id: number) {
         const url = environment.API_URL + '/Etablissements/' + idEtablissement + '/creneaux/' + id + '/';
         return this.http.delete(url).subscribe(res => console.log(res));
     }

@@ -1,16 +1,17 @@
 import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {User} from "../../model/model.user";
-import {Utilisateur, AccessToken} from '../../shared/sdk/models';
+import {AuthService} from '../../services/auth.service';
+import {User} from '../../model/model.user';
 import {Router} from '@angular/router';
 import {WeekUtils} from '../../utils/WeekUtils';
 import * as moment from 'moment';
-import {UserService} from "../../services/user.service";
+import {UserService} from '../../services/user.service';
 import {MatSelectModule} from '@angular/material/select';
 import {FormControl, ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UtilisateurApi} from '../../shared/sdk';
+import {Utilisateur} from '../../shared/sdk/models';
 import {AuthGuard} from '../../shared/auth.guard';
+
 
 @Component({
     selector: 'app-profile',

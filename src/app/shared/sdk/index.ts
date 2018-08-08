@@ -50,7 +50,6 @@ import { SocketConnection } from './sockets/socket.connections';
 import { RealTime } from './services/core/real.time';
 import { MessageApi } from './services/custom/Message';
 import { UtilisateurApi } from './services/custom/Utilisateur';
-import { ClasseApi } from './services/custom/Classe';
 import { SalleApi } from './services/custom/Salle';
 import { CreneauApi } from './services/custom/Creneau';
 import { GroupeApi } from './services/custom/Groupe';
@@ -90,7 +89,6 @@ export class SDKBrowserModule {
         RealTime,
         MessageApi,
         UtilisateurApi,
-        ClasseApi,
         SalleApi,
         CreneauApi,
         GroupeApi,
