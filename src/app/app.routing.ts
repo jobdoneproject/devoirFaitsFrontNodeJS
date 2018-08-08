@@ -28,7 +28,7 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   {
     path: 'liste/:type',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: ListeUtilisateurComponent, outlet: 'connected' }]
   },
   {
@@ -38,58 +38,58 @@ const appRoutes: Routes = [
   },
   {
     path: 'duplicate',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: DuplicateWeekComponent, outlet: 'connected' }]
   },
   {
     path: 'datepicker',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: DatepickerComponent, outlet: 'connected' }]
   },
   {
     path: 'creneau',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: PageCreneauComponent, outlet: 'connected' }]
   },
   { path: 'creneau/:id',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{path: '', component: PageCreneauComponent, outlet: 'connected'}]
   },
   {
-    path: 'salle',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    path: 'salles',
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: SalleComponent, outlet: 'connected' }]
   },
   {
     path: 'edition-utilisateur/:type/:id',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: PageUserEditComponent, outlet: 'connected' }]
   },
   { path: 'creation-utilisateur/:type',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{path: '', component: PageUserEditComponent, outlet: 'connected'}]
   },
   { path: 'import-eleves',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{path: '', component: ImportElevesComponent, outlet: 'connected'}]
   },
   { path: 'import-professeurs',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{path: '', component: ImportProfesseursComponent, outlet: 'connected'}]
   },
   {
     path: 'liste-appel/:id',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: ListeAppelComponent, outlet: 'connected' }]
   },
   {
     path: 'messages/:id',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: TimelineComponent, outlet: 'connected' }]
   },
   {
     path: 'profil',
-    component: ContainerComponent, canActivate: [UrlPermission],
+    component: ContainerComponent, canActivate: [AuthGuard],
     children: [{ path: '', component: ProfilUserComponent, outlet: 'connected' }]
   },
   { path: '', redirectTo: 'bienvenue', pathMatch: 'full' },
