@@ -6,7 +6,6 @@ import { Salle } from '../../models/Salle';
 import { Creneau } from '../../models/Creneau';
 import { Groupe } from '../../models/Groupe';
 import { Geocode } from '../../models/Geocode';
-import { EducationNationale } from '../../models/EducationNationale';
 import { Etablissement } from '../../models/Etablissement';
 import { Userlog } from '../../models/Userlog';
 
@@ -22,7 +21,6 @@ export class SDKModels {
     Creneau: Creneau,
     Groupe: Groupe,
     Geocode: Geocode,
-    EducationNationale: EducationNationale,
     Etablissement: Etablissement,
     Userlog: Userlog,
     

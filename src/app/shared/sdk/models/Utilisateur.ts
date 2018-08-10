@@ -10,7 +10,7 @@ export interface UtilisateurInterface {
   "privilege": string;
   "ville": string;
   "disponible": boolean;
-  "classeName": boolean;
+  "classeName": string;
   "actif": boolean;
   "telephone"?: string;
   "realm"?: string;
@@ -30,7 +30,7 @@ export class Utilisateur implements UtilisateurInterface {
   "privilege": string;
   "ville": string;
   "disponible": boolean;
-  "classeName": boolean;
+  "classeName": string;
   "actif": boolean;
   "telephone": string;
   "realm": string;
@@ -42,6 +42,7 @@ export class Utilisateur implements UtilisateurInterface {
   "password": string;
   accessTokens: any[];
   idEtablissement: Etablissement;
+  selected: boolean;
   constructor(data?: UtilisateurInterface) {
     Object.assign(this, data);
   }
@@ -97,7 +98,7 @@ export class Utilisateur implements UtilisateurInterface {
         },
         "classeName": {
           name: 'classeName',
-          type: 'boolean'
+          type: 'string'
         },
         "actif": {
           name: 'actif',
