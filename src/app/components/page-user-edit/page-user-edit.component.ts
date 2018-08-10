@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, IterableDiffers } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
-import { User} from "../../model/model.user";
-import { Router} from "@angular/router";
-import { AppComponent} from "../../app.component";
-import { AuthService} from "../../services/auth.service";
+import { User} from '../../model/model.user';
+import { Router} from '@angular/router';
+import { AppComponent} from '../../app.component';
+import { AuthService} from '../../services/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UtilsService } from '../../services/utils.service';
@@ -33,7 +33,7 @@ export class PageUserEditComponent implements OnInit {
 
    currentUser: Utilisateur;
    administrateur: boolean;
-   typeUtilisateur:string;
+   typeUtilisateur: string;
    idUtilisateur: number;
    editUserForm: FormGroup;
    //utilisateurs: Observable<User>;
@@ -50,7 +50,7 @@ export class PageUserEditComponent implements OnInit {
     // Vérif user Administrateur :
     this.currentUser = this.userService.getCachedCurrent();
 
-    if (this.currentUser.privilege == "Administrateur"){
+    if (this.currentUser.privilege == 'Administrateur') {
       this.administrateur = true;
     }
 
@@ -59,7 +59,7 @@ export class PageUserEditComponent implements OnInit {
       this.typeUtilisateur = params['type'];
       this.idUtilisateur = params['id'];
     });
-    if (this.idUtilisateur != null){
+    if (this.idUtilisateur != null) {
       this.initUser();
     } else {
       this.newUser();
@@ -73,18 +73,19 @@ export class PageUserEditComponent implements OnInit {
   }
 
   initUser() {
-    this.userService.getUser(this.typeUtilisateur, this.currentUser.idEtablissement, this.idUtilisateur)
-      .map((value: User) => {this.editedUser = value; })
+    this.userService.find({ fields: {id: this.idUtilisateur} })
+   // getUser(this.typeUtilisateur, this.currentUser.idEtablissement, this.idUtilisateur)
+      .map((Utilisateur) => {this.editedUser; })
       .subscribe();
   }
 
   newUser(){
-    this.editedUser = new User();
-    this.editedUser.idEtablissement = this.currentUser.idEtablissement;
+    this.editedUser = new Utilisateur();
+    this.editedUser.numero_uai = this.currentUser.numero_uai;
     this.editedUser.nom = null;
     this.editedUser.prenom = null;
     this.editedUser.email = null;
-    this.editedUser.classe = null;
+    this.editedUser.classeName = null;
     this.editedUser.password = null;
     this.editedUser.telephone = null;
   }
@@ -100,19 +101,20 @@ export class PageUserEditComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.idUtilisateur != null){
+    if (this.idUtilisateur != null) {
       this.userService.putUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.editedUser);
     } else {
-      this.userService.postUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.editedUser);
-    }
-      console.log("Form Submitted!");
+     // this.userService.postUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.editedUser);
+        this.userService.patchOrCreate(this.editedUser);
+        }
+      console.log('Form Submitted!');
       this.router.navigate(['liste/' + this.typeUtilisateur]);
   }
 
   onSupress() {
-    if(confirm('Voulez-vous vraiment supprimer '+ this.editedUser.nom + " " + this.editedUser.prenom + " ?")){
+    if(confirm('Voulez-vous vraiment supprimer ' + this.editedUser.nom + ' ' + this.editedUser.prenom + ' ?')){
       this.userService.deleteUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.idUtilisateur);
-      console.log("Form Suppress!");
+      console.log('Form Suppress!');
       this.router.navigate(['liste/' + this.typeUtilisateur]);
     }
   }

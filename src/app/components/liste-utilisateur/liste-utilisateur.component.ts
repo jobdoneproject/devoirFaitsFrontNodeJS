@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewEncapsulation, IterableDiffers} from '@angular/core';
 import {Http, Response, RequestOptions, Headers} from '@angular/http';
-import {User} from "../../model/model.user";
-import {Router, ActivatedRoute} from "@angular/router";
+import {User} from '../../model/model.user';
+import {Router, ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {AuthService} from "../../services/auth.service";
-import {UserService} from "../../services/user.service";
+import {AuthService} from '../../services/auth.service';
+import {UserService} from '../../services/user.service';
 import {EtablissementApi, UtilisateurApi} from '../../shared/sdk';
 import {Utilisateur} from '../../shared/sdk/models';
 import {EtablissementInterface} from '../../shared/sdk/models';
@@ -30,6 +30,7 @@ export class ListeUtilisateurComponent implements OnInit {
 
     pipeClass: EleveClassesPipe = new EleveClassesPipe;
     typeUtilisateur: string;
+    idUtilisateur: string;
     titrePage: string;
     currentUser: Utilisateur;
     currentEtablissement: EtablissementApi;
@@ -44,7 +45,7 @@ export class ListeUtilisateurComponent implements OnInit {
     }];
     classeDisponibles = ['Toutes'];
     nomDisponibles = [];
-    filterParClasse: string = "Toutes";
+    filterParClasse = 'Toutes';
     filterParNom: string;
     selectedUtilisateurs: Utilisateur[] = [];
     isSelected: boolean = false;
@@ -61,38 +62,40 @@ export class ListeUtilisateurComponent implements OnInit {
     ) {
 
         this.route.params.subscribe(params => {
-            this.typeUtilisateur = params['type']
+            this.typeUtilisateur = params['type'];
         });
-        if (this.typeUtilisateur == 'eleve') {
+        if (this.typeUtilisateur === 'eleve') {
             this.titrePage = 'Élèves';
-        } else if (this.typeUtilisateur == 'professeur') {
+        } else if (this.typeUtilisateur === 'professeur') {
             this.titrePage = 'Professeurs';
         }
 
         this.currentUser = this.userService.getCachedCurrent();
         this.idEtablissement = this.currentUser.numero_uai;
-        this.currentEtablissement =  this.etablissementAPI;
 
-        if (this.currentUser.privilege == 'Administrateur') {
+
+        if (this.currentUser.privilege === 'Administrateur') {
             this.isAdministrateur = true;
         }
-
-
-        this.currentEtablissement.getUtilisateurs(this.currentUser.numero_uai).subscribe(newUsers => {
+            this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': this.typeUtilisateur}} ).subscribe(newUsers => {
 
             this.utilisateurs$ = new BehaviorSubject<Array<Utilisateur>>(newUsers);
 
             this.utilisateurs$.forEach(arrayClasseUtilisateur => {
                 arrayClasseUtilisateur.forEach(utilisateur => {
-                    if (this.classeDisponibles.indexOf(utilisateur.classeName) == -1) {
+                    if (this.classeDisponibles.indexOf(String(utilisateur.classeName)) === -1) {
                         this.classeDisponibles.push(utilisateur.classeName);
+                        // Dynamically add a column to the model (added in memory because no need to data persist it
+                        utilisateur.selected = false;
                     }
                 });
             });
+            console.log(this.classeDisponibles);
+            console.log(this.nomDisponibles);
 
             this.utilisateurs$.forEach(arrayNomUtilisateur => {
                 arrayNomUtilisateur.forEach(utilisateur => {
-                    if (this.nomDisponibles.indexOf(utilisateur.nom) == -1) {
+                    if (this.nomDisponibles.indexOf(utilisateur.nom) === -1) {
                         this.nomDisponibles.push(utilisateur.nom);
                     }
                 });
@@ -107,7 +110,7 @@ export class ListeUtilisateurComponent implements OnInit {
     }
 
     redirectEditUser(idUtilisateur: number) {
-        this.router.navigate(['edition-utilisateur/' + this.typeUtilisateur + '/' + idUtilisateur]);
+        this.router.navigate(['edition-utilisateur/' + this.typeUtilisateur + '/' + this.idUtilisateur]);
     }
 
     redirectNewUser() {
@@ -142,18 +145,18 @@ export class ListeUtilisateurComponent implements OnInit {
             this.utilisateurs$.forEach(utilisateurs => {
                 utilisateurs.forEach(utilisateur => {
                     this.selectedUtilisateurs.push(utilisateur);
-                })
+                });
             });
         } else {
             this.selectedUtilisateurs.splice(0, this.selectedUtilisateurs.length);
             this.utilisateurs$.forEach(utilisateurs => {
                 utilisateurs.forEach(utilisateur => {
                     utilisateur.selected = false;
-                })
-            })
+                });
+            });
         }
 
-        if (this.filterParClasse != 'Toutes') {
+        if (this.filterParClasse !== 'Toutes') {
             this.selectedUtilisateurs = this.selectedUtilisateurs.filter(s => s.classeName.includes(this.filterParClasse));
         }
 
@@ -161,7 +164,7 @@ export class ListeUtilisateurComponent implements OnInit {
             var regex = new RegExp('.*' + this.filterParNom + '.*', 'i');
             this.selectedUtilisateurs = this.selectedUtilisateurs.filter(s => regex.test(s.nom));
         }
-        console.log(this.selectedUtilisateurs.length);
+        console.log('longueur de this.selectedUtilisateurs.length'+ this.selectedUtilisateurs.length);
 
         this.selectedUtilisateurs.forEach(utilisateur => {
             utilisateur.selected = true;
@@ -172,11 +175,11 @@ export class ListeUtilisateurComponent implements OnInit {
         this.userService.patchAttributes(this.typeUtilisateur, this.currentUser.numero_uai, idUtilisateur);
     }
 
-    switchSelectedUtilisateur(selectedUtilisateur: User, selection) {
+    switchSelectedUtilisateur(selectedUtilisateur: Utilisateur, selection) {
         if (selection.checked) {
             this.selectedUtilisateurs.push(selectedUtilisateur);
         } else {
-            const indexUtilisateur = this.selectedUtilisateurs.findIndex(u => u.idUtilisateur == selectedUtilisateur.idUtilisateur);
+            const indexUtilisateur = this.selectedUtilisateurs.findIndex(u => u.id == selectedUtilisateur.id);
             if (indexUtilisateur >= 0) {
                 this.selectedUtilisateurs.splice(indexUtilisateur, 1);
             }

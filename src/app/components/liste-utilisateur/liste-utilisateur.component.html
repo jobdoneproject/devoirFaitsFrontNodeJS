@@ -85,7 +85,7 @@
                   
                   <td *ngIf="typeUtilisateur == 'eleve'" (click)="redirectMessageUser(utilisateur.idUtilisateur);" class="hiddenMobile" style="cursor: pointer;"><span class="far fa-comments"></span></td>
                   <td (click)="redirectEditUser(utilisateur.idUtilisateur);">
-                      <strong>{{ utilisateur.nom }} </strong><em>{{ utilisateur.prenom }}</em>
+                      <strong>{{ utilisateur.nom }} {{ utilisateur.idUtilisateur }}</strong><em>{{ utilisateur.prenom }}</em>
                   </td>
                   <td *ngIf="typeUtilisateur == 'eleve'" (click)="redirectEditUser(utilisateur.idUtilisateur);" class="hiddenMobile">{{ utilisateur.classeName }}</td>
                   <td (click)="redirectEditUser(utilisateur.idUtilisateur);" class="hiddenMobile">{{ utilisateur.mail }}</td>

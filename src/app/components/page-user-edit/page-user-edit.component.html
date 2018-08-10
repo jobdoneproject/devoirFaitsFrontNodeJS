@@ -5,7 +5,7 @@
           <span *ngIf="typeUtilisateur =='eleve'; else profBlock">Élève </span>
           <ng-template #profBlock>Professeur </ng-template>
           {{editedUser.nom}} <em>{{editedUser.prenom}}</em>
-          <span *ngIf="typeUtilisateur =='eleve' && editedUser.classe != null"> {{editedUser.classe}}</span>
+          <span *ngIf="typeUtilisateur =='eleve' && editedUser.classeName!= null"> {{editedUser.classeName}}</span>
         </h1>
       </span>
   </div>
@@ -34,7 +34,7 @@
               <div class="form-group row" *ngIf="typeUtilisateur =='eleve'">
                 <label for="userclasse" class="col-sm-3 col-form-label text-sm-right">Classe</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" id="userclasse" name="userclasse" [(ngModel)]="editedUser.classe" [ngModelOptions]="{standalone: true}">
+                  <input type="text" class="form-control" id="userclasse" name="userclasse" [(ngModel)]="editedUser.classeName" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
               <div class="form-group row">
