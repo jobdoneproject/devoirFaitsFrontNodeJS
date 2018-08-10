@@ -3,7 +3,7 @@ import {User} from '../../model/model.user';
 import {Router} from '@angular/router';
 import {AppComponent} from '../../app.component';
 import {AuthService} from '../../services/auth.service';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
@@ -21,9 +21,10 @@ import {ActivatedRoute} from '@angular/router';
 import {CourseSlot} from '../../model/model.courseslot';
 import {UtilisateurApi} from '../../shared/sdk';
 import {AuthGuard} from '../../shared/auth.guard';
-import {Utilisateur} from '../../shared/sdk/models';
 import {Etablissement} from '../../shared/sdk/models';
 import {EtablissementInterface} from '../../shared/sdk/models';
+import {EtablissementApi} from '../../shared/sdk';
+import {Utilisateur} from '../../shared/sdk/models';
 
 
 @Component({
@@ -39,12 +40,13 @@ export class PageCreneauComponent implements OnInit {
     // selectedProfesseursBackup: User[] = [];
     selectedProfesseur: any;
     currentUser: Utilisateur;
-    currentEtablissement: EtablissementInterface;
+    currentEtablissement: EtablissementApi;
+    profs$: BehaviorSubject<Utilisateur[]>;
 
     administrateur: boolean;
     errorMessage: string;
-    listEleve: [any];
-    listProfesseur: Observable<any>;
+    listEleves = [];
+    listProfesseurs = [];
     @Input() date_creneau: any;
     @Input() heure_debut: any;
     @Input() heure_fin: any;
@@ -71,6 +73,7 @@ export class PageCreneauComponent implements OnInit {
                 public authService: AuthGuard,
                 public router: Router,
                 private userService: UtilisateurApi,
+                private etablissementAPI: EtablissementApi,
                 private route: ActivatedRoute,
                 private creneauService: CreneauService) {
 
@@ -83,18 +86,48 @@ export class PageCreneauComponent implements OnInit {
             this.administrateur = true;
         }
 
+// -----------------------------
+        this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'professeur'}}).subscribe(newUsers => {
 
-        this.listProfesseur = this.userService.getUsers('professeur', this.currentUser.idEtablissement);
- //       this.listEleve = this.userService.getUsers('eleve', this.currentUser.idEtablissement);
-        console.log(this.currentEtablissement.utilisateurs);
+            this.profs$ = new BehaviorSubject<Array<Utilisateur>>(newUsers);
 
-        this.listEleve.forEach(arrayNomUtilisateur => {
-            arrayNomUtilisateur.forEach(utilisateur => {
-                if (this.nomAndClasses.indexOf(utilisateur.nom) == -1) {
-                    this.nomAndClasses.push(utilisateur.nom);
-                }
+            this.profs$.forEach(arrayNomUtilisateur => {
+                arrayNomUtilisateur.forEach(prof => {
+                    if (this.listProfesseurs.indexOf(prof.nom) == -1) {
+                        this.listProfesseurs.push(prof.nom);
+                    }
+                });
             });
         });
+        this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'eleve'}}).subscribe(newUsers => {
+
+            this.profs$ = new BehaviorSubject<Array<Utilisateur>>(newUsers);
+
+            this.profs$.forEach(arrayNomUtilisateur => {
+                arrayNomUtilisateur.forEach(prof => {
+                    if (this.listEleves.indexOf(prof.nom) == -1) {
+                        this.listEleves.push(prof.nom);
+                    }
+                });
+            });
+        });
+
+
+// -----------------------------
+        // this.listProfesseur = this.userService.getUsers('professeur', this.currentUser.idEtablissement);
+
+        //     this.listProfesseur = this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'professeur'}} );
+        //     this.listEleve = this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'eleve'}} );
+        //     //       this.listEleve = this.userService.getUsers('eleve', this.currentUser.idEtablissement);
+        //    console.log(this.listProfesseur);
+
+        //    this.listEleve.forEach(arrayNomUtilisateur => {
+        //         arrayNomUtilisateur.forEach(utilisateur => {
+        //            if (this.nomAndClasses.indexOf(utilisateur.) == -1) {
+        //                 this.nomAndClasses.push(utilisateur.nom);
+        //             }
+        //        });
+        //     });
 
 
         // EDITION CRENEAU
@@ -122,7 +155,7 @@ export class PageCreneauComponent implements OnInit {
             this.pageModeCreation = true;
             this.titre = 'Nouveau créneau';
 
-            this.roomsv.getAll(this.currentUser.idEtablissement)
+            this.roomsv.getAll(this.currentUser.numero_uai)
                 .subscribe(data => {
                     this.allSalleEtb = data;
                 });

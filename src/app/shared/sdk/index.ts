@@ -54,7 +54,6 @@ import { SalleApi } from './services/custom/Salle';
 import { CreneauApi } from './services/custom/Creneau';
 import { GroupeApi } from './services/custom/Groupe';
 import { GeocodeApi } from './services/custom/Geocode';
-import { EducationNationaleApi } from './services/custom/EducationNationale';
 import { EtablissementApi } from './services/custom/Etablissement';
 import { UserlogApi } from './services/custom/Userlog';
 /**
@@ -93,7 +92,6 @@ export class SDKBrowserModule {
         CreneauApi,
         GroupeApi,
         GeocodeApi,
-        EducationNationaleApi,
         EtablissementApi,
         UserlogApi,
         internalStorageProvider,

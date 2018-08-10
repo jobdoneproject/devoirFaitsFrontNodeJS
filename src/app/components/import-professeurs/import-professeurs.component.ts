@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../model/model.user";
+import {User} from '../../model/model.user';
 import { UserService } from '../../services/user.service';
-import { UploadItem, Uploader }    from 'angular-http-file-upload';
+import { UploadItem, Uploader } from 'angular-http-file-upload';
+import {UtilisateurApi} from '../../shared/sdk';
+import {Utilisateur} from '../../shared/sdk/models';
 
 @Component({
   selector: 'app-import-professeurs',
@@ -14,14 +16,15 @@ export class ImportProfesseursComponent implements OnInit {
   currentUser: User;
   fileContent;
 
-  constructor(public utilisateurService: UserService,
+  constructor(private userService: UtilisateurApi, public utilisateurService: UserService,
     public uploaderService: Uploader) {
    }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (this.currentUser.privilege == "Administrateur"){
-      this.administrateur = true;
+      this.currentUser = this.userService.getCachedCurrent();
+      if (this.currentUser.privilege == 'Administrateur'){
+          this.administrateur = true;
     }
   }
 

@@ -9,6 +9,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {UtilisateurApi} from '../shared/sdk';
 import {AuthGuard} from '../shared/auth.guard';
+import {Utilisateur} from '../shared/sdk/models';
 
 
 @Injectable()
@@ -18,7 +19,7 @@ export class CreneauService {
         headers: new Headers({'Content-Type': 'application/json'})
     };
 
-    newCreneau: CourseSlot = {idCreneau: null, dateDebut: 0, dateFin: 0, professeurs: [], eleves: [], salle: null};
+    newCreneau: CourseSlot = {dateDebut: 0, dateFin: 0, professeurs: [], eleves: [], salle: []};
 
     constructor(private http: Http,
                 private  httpClient: HttpClient,
@@ -30,11 +31,11 @@ export class CreneauService {
         return this.httpClient.get(environment.API_URL + '/Etablissements/' + idEtablissement + '/creneaux/' + idCreneau);
     }
 
-    createSlot(debut: number, fin: number, eleves: User[], profs: User[],
+    createSlot(debut: number, fin: number, eleves: Utilisateur[], profs: Utilisateur[],
                salle: Room, idEtablissement: string) {
         const newCreneau: CourseSlot = {
-            idCreneau: null, dateDebut: 0, dateFin: 0,
-            professeurs: [], eleves: [], salle: null
+            dateDebut: 0, dateFin: 0,
+            professeurs: [], eleves: [], salle: []
         };
         newCreneau.dateDebut = debut;
         newCreneau.dateFin = fin;
@@ -54,19 +55,17 @@ export class CreneauService {
             body,
             options
         ).subscribe(res => {
-            console.log(res),
-                // window.location.href = environment.API_URL + "/profile";
-                // this.router.navigate(['liste/' + this.typeUtilisateur]);
-                // this.router.navigate(['/profile']);
+            console.log(res);
+
                 this.router.navigate(['/profile']);
         });
     }
 
-    prepareEditedTimeSlot(idCreneau: number, debut: number, fin: number, eleves: User[], profs: User[],
+    prepareEditedTimeSlot(id: number, debut: number, fin: number, eleves: Utilisateur[], profs: Utilisateur[],
                           salle: Room, idEtablissement: string) {
         const editedTimeSlot: CourseSlot = {
-            idCreneau: null, dateDebut: 0, dateFin: 0,
-            professeurs: [], eleves: [], salle: null
+            dateDebut: 0, dateFin: 0,
+            professeurs: [], eleves: [], salle: []
         };
         editedTimeSlot.idCreneau = idCreneau;
         editedTimeSlot.dateDebut = debut;
@@ -74,7 +73,7 @@ export class CreneauService {
         editedTimeSlot.eleves = eleves;
         editedTimeSlot.professeurs = profs;
         editedTimeSlot.salle = salle;
-        this.putSlot(editedTimeSlot, idEtablissement, idCreneau)
+        this.putSlot(editedTimeSlot, idEtablissement, idCreneau);
     }
 
     putSlot(editedCreneau: CourseSlot, idEtablissement: string, idCreneau: number) {
