@@ -3,6 +3,7 @@ import {duration, utc} from 'moment';
 import {CourseSlot} from '../../model/model.course-slots';
 import {User} from '../../model/model.user';
 import {CreneauService} from '../../services/creneau.service';
+import {Creneau} from '../../shared/sdk/models';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {UtilisateurApi} from '../../shared/sdk';
@@ -31,7 +32,7 @@ export class CalendarSlotComponent implements OnInit {
         }
     }
 
-    public get slot(): CourseSlot {
+    public get slot(): Creneau {
         return this.slotValue;
     }
 
@@ -54,13 +55,13 @@ export class CalendarSlotComponent implements OnInit {
         if (this.slotValue.salle) {
             return this.slotValue.salle.nom;
         }
-        console.log(this.slotValue.salle)
+        console.log(this.slotValue.salle);
         return ' non définie';
     }
 
     public get adresseCreneau(): String {
         let adresse: String;
-        if (this.currentUser.privilege === "Administrateur") {
+        if (this.currentUser.privilege === 'Administrateur') {
             adresse = `creneau/${this.slotValue.idCreneau}`;
         }
         else if (this.currentUser.privilege === "Professeur") {
@@ -81,8 +82,8 @@ export class CalendarSlotComponent implements OnInit {
     }
 
     deleteSlot(slotId: number) {
-        let savedDeletedSlot: CourseSlot;
-        this.creneauService.getSlot(this.currentUser.numero_uai, slotId).subscribe((data: CourseSlot) => {
+        let savedDeletedSlot: Creneau;
+        this.creneauService.getSlot(this.currentUser.numero_uai, slotId).subscribe((data: Creneau) => {
             savedDeletedSlot = data;
             this.onDeleteEvent.emit(savedDeletedSlot);
             this.creneauService.deleteSelected(this.currentUser.numero_uai, slotId);

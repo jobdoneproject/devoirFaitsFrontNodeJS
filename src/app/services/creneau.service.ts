@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 import {UtilisateurApi} from '../shared/sdk';
 import {AuthGuard} from '../shared/auth.guard';
 import {Utilisateur} from '../shared/sdk/models';
+import {Creneau} from '../shared/sdk/models';
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class CreneauService {
         headers: new Headers({'Content-Type': 'application/json'})
     };
 
-    newCreneau: CourseSlot = {idCreneau: null, dateDebut: 0, dateFin: 0, professeurs: [], eleves: [], salle: null};
+    newCreneau: Creneau = {idCreneau: null, dateDebut: 0, dateFin: 0, professeurs: [], eleves: [], salle: null};
 
     constructor(private http: Http,
                 private  httpClient: HttpClient,
@@ -46,7 +47,7 @@ export class CreneauService {
         this.postSlot(newCreneau, idEtablissement);
     }
 
-    postSlot(newCreneau: CourseSlot, idEtablissement: string) {
+    postSlot(newCreneau: Creneau, idEtablissement: string) {
         const headers = new Headers({'Content-Type': 'application/json'});
         const options = new RequestOptions({headers: headers});
         const body = JSON.stringify(newCreneau);
@@ -64,9 +65,9 @@ export class CreneauService {
 
     prepareEditedTimeSlot(idCreneau: number, debut: number, fin: number, eleves: Utilisateur[], profs: Utilisateur[],
                           salle: Room, idEtablissement: string) {
-        const editedTimeSlot: CourseSlot = {idCreneau: null,
+        const editedTimeSlot: Creneau = {idCreneau: null,
             dateDebut: 0, dateFin: 0,
-            professeurs: [], eleves: [], salle: null
+            Utilisateurs: [], eleves: [], salle: null
         };
         editedTimeSlot.idCreneau = idCreneau;
         editedTimeSlot.dateDebut = debut;
@@ -78,7 +79,7 @@ export class CreneauService {
        this.putSlot(editedTimeSlot, idEtablissement, idCreneau);
     }
 
-    putSlot(editedCreneau: CourseSlot, idEtablissement: string, idCreneau: number) {
+    putSlot(editedCreneau: Creneau, idEtablissement: string, idCreneau: number) {
         const headers = new Headers({'Content-Type': 'application/json'});
         const options = new RequestOptions({headers: headers});
         const body = JSON.stringify(editedCreneau);

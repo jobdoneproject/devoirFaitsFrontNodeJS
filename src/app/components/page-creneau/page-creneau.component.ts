@@ -181,7 +181,7 @@ export class PageCreneauComponent implements OnInit {
         const eleveAdded = this.myControl.value;
         let doublon = false;
         this.selectedEleves.forEach(eleve => {
-            if (eleve.idUtilisateur === eleveAdded.idUtilisateur) {
+            if (eleve.id === eleveAdded.idUtilisateur) {
                 doublon = true;
             }
         });
@@ -200,7 +200,7 @@ export class PageCreneauComponent implements OnInit {
     addProfesseurToSelected(selectedProfesseur) {
         let doublon = false;
         this.selectedProfesseurs.forEach(professeur => {
-            if (professeur.idUtilisateur === selectedProfesseur.idUtilisateur) {
+            if (professeur.id === selectedProfesseur.idUtilisateur) {
                 doublon = true;
             }
         });
