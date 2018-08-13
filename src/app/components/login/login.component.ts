@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    console.log(this.user);
       this.userApi.login(this.user).subscribe(
           (token: AccessToken) => this.router.navigate(['/profile']),
           err => alert(err.message)

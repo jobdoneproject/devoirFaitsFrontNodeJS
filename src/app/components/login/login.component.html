@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
                             <label for="codeEtab">Code Etablissement</label>
-                            <input type="text" class="form-control" id="codeEtab" name="codeEtab" [(ngModel)]="user.numero_uai"
+                            <input type="text" class="form-control" id="codeEtab" name="codeEtab" [(ngModel)]="user.realm"
                                    #codeEtab="ngModel" required/>
                         </div>
                         <div class="mt-5">
