@@ -1,30 +1,29 @@
-import {Component, OnInit, ViewEncapsulation, IterableDiffers, Input, EventEmitter} from '@angular/core';
-import {User} from '../../model/model.user';
-import {Router} from '@angular/router';
-import {AppComponent} from '../../app.component';
-import {AuthService} from '../../services/auth.service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {MatListOption, MatSelectionList} from '@angular/material/list';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {FormControl, ReactiveFormsModule, FormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {Time} from '@angular/common';
+import { Component, OnInit, ViewEncapsulation, IterableDiffers, Input, EventEmitter } from '@angular/core';
+import { User } from '../../model/model.user';
+import { Router } from '@angular/router';
+import { AppComponent } from '../../app.component';
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
+import { map} from 'rxjs/operators';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Time } from '@angular/common';
 import * as moment from 'moment';
-import {environment} from '../../../environments/environment';
-import {CreneauService} from '../../services/creneau.service';
-import {UserService} from '../../services/user.service';
-import {Room} from '../../model/model.room';
-import {RoomService} from '../../services/room.service';
-import {ActivatedRoute} from '@angular/router';
-import {CourseSlot} from '../../model/model.courseslot';
-import {UtilisateurApi} from '../../shared/sdk';
+import { environment } from '../../../environments/environment';
+import { CreneauService } from '../../services/creneau.service';
+import { UserService } from '../../services/user.service';
+import { Room } from '../../model/model.room';
+import { RoomService } from '../../services/room.service';
+import { ActivatedRoute } from '@angular/router';
+import { CourseSlot } from '../../model/model.courseslot';
+import { Utilisateur, AccessToken } from '../../shared/sdk/models';
+import { UtilisateurApi } from '../../shared/sdk/services';
 import {AuthGuard} from '../../shared/auth.guard';
-import {Etablissement} from '../../shared/sdk/models';
-import {EtablissementInterface} from '../../shared/sdk/models';
 import {EtablissementApi} from '../../shared/sdk';
-import {Utilisateur} from '../../shared/sdk/models';
+
 
 
 @Component({
@@ -35,18 +34,15 @@ import {Utilisateur} from '../../shared/sdk/models';
 
 export class PageCreneauComponent implements OnInit {
 
-    selectedEleves: User[] = [];
-    selectedProfesseurs: User[] = [];
+    selectedEleves: Utilisateur[] = [];
+    selectedProfesseurs: Utilisateur[] = [];
     // selectedProfesseursBackup: User[] = [];
     selectedProfesseur: any;
     currentUser: Utilisateur;
-    currentEtablissement: EtablissementApi;
-    profs$: BehaviorSubject<Utilisateur[]>;
-
     administrateur: boolean;
     errorMessage: string;
-    listEleves = [];
-    listProfesseurs = [];
+    listEleve: Observable<any>;
+    listProfesseur: Observable<any>;
     @Input() date_creneau: any;
     @Input() heure_debut: any;
     @Input() heure_fin: any;
@@ -81,53 +77,26 @@ export class PageCreneauComponent implements OnInit {
         this.currentUser = this.userService.getCachedCurrent();
         this.idEtablissement = this.currentUser.numero_uai;
 
-
         if (this.currentUser.privilege == 'Administrateur') {
             this.administrateur = true;
         }
 
-// -----------------------------
-        this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'professeur'}}).subscribe(newUsers => {
 
-            this.profs$ = new BehaviorSubject<Array<Utilisateur>>(newUsers);
+       // this.listProfesseur = this.userService.getUsers("professeur", this.currentUser.idEtablissement);
+        // this.listEleve =  this.userService.getUsers("eleve", this.currentUser.idEtablissement);
+        this.listProfesseur = this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'professeur'}} );
+        this.listEleve = this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'eleve'}} );
 
-            this.profs$.forEach(arrayNomUtilisateur => {
-                arrayNomUtilisateur.forEach(prof => {
-                    if (this.listProfesseurs.indexOf(prof.nom) == -1) {
-                        this.listProfesseurs.push(prof.nom);
-                    }
-                });
+
+
+
+        this.listEleve.forEach(arrayNomUtilisateur => {
+            arrayNomUtilisateur.forEach(utilisateur => {
+                if (this.nomAndClasses.indexOf(utilisateur.nom) == -1) {
+                    this.nomAndClasses.push(utilisateur.nom);
+                }
             });
         });
-        this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'eleve'}}).subscribe(newUsers => {
-
-            this.profs$ = new BehaviorSubject<Array<Utilisateur>>(newUsers);
-
-            this.profs$.forEach(arrayNomUtilisateur => {
-                arrayNomUtilisateur.forEach(prof => {
-                    if (this.listEleves.indexOf(prof.nom) == -1) {
-                        this.listEleves.push(prof.nom);
-                    }
-                });
-            });
-        });
-
-
-// -----------------------------
-        // this.listProfesseur = this.userService.getUsers('professeur', this.currentUser.idEtablissement);
-
-        //     this.listProfesseur = this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'professeur'}} );
-        //     this.listEleve = this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'eleve'}} );
-        //     //       this.listEleve = this.userService.getUsers('eleve', this.currentUser.idEtablissement);
-        //    console.log(this.listProfesseur);
-
-        //    this.listEleve.forEach(arrayNomUtilisateur => {
-        //         arrayNomUtilisateur.forEach(utilisateur => {
-        //            if (this.nomAndClasses.indexOf(utilisateur.) == -1) {
-        //                 this.nomAndClasses.push(utilisateur.nom);
-        //             }
-        //        });
-        //     });
 
 
         // EDITION CRENEAU
@@ -156,7 +125,7 @@ export class PageCreneauComponent implements OnInit {
             this.titre = 'Nouveau créneau';
 
             this.roomsv.getAll(this.currentUser.numero_uai)
-                .subscribe(data => {
+                .subscribe( data => {
                     this.allSalleEtb = data;
                 });
 
@@ -172,8 +141,7 @@ export class PageCreneauComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     updateTitre(dateDebut) {
         // Titre
@@ -181,41 +149,18 @@ export class PageCreneauComponent implements OnInit {
         // console.log(titreDateMois);
         let moisString = '';
         switch (titreDateMois) {
-            case '01':
-                moisString = 'janvier';
-                break;
-            case '02':
-                moisString = 'février';
-                break;
-            case '03':
-                moisString = 'mars';
-                break;
-            case '04':
-                moisString = 'avril';
-                break;
-            case '05':
-                moisString = 'mai';
-                break;
-            case '06':
-                moisString = 'juin';
-                break;
-            case '07':
-                moisString = 'juillet';
-                break;
-            case '08':
-                moisString = 'août';
-                break;
-            case '09':
-                moisString = 'septembre';
-                break;
-            case '10':
-                moisString = 'octobre';
-                break;
-            case '11':
-                moisString = 'novembre';
-                break;
-            default:
-                moisString = 'décembre';
+            case '01': moisString = 'janvier'; break;
+            case '02': moisString = 'février'; break;
+            case '03': moisString = 'mars'; break;
+            case '04': moisString = 'avril'; break;
+            case '05': moisString = 'mai'; break;
+            case '06': moisString = 'juin'; break;
+            case '07': moisString = 'juillet'; break;
+            case '08': moisString = 'août'; break;
+            case '09': moisString = 'septembre'; break;
+            case '10': moisString = 'octobre'; break;
+            case '11': moisString = 'novembre'; break;
+            default: moisString = 'décembre';
         }
 
         // console.log(this.editedCreneau.dateDebut);
@@ -277,9 +222,7 @@ export class PageCreneauComponent implements OnInit {
 
     }
 
-    majTitre() {
-        this.titre = 'Création du créneau du ' + this.date_creneau.toString();
-    }
+    majTitre() { this.titre = 'Création du créneau du ' + this.date_creneau.toString(); }
 
     onSend() {
         this.courseservice.createSlot(
@@ -324,9 +267,7 @@ export class PageCreneauComponent implements OnInit {
         this.router.navigate(['/profile']);
     }
 
-    onChangeNom(optionDuMenu) {
-        this.filterParNom = optionDuMenu;
-    }
+    onChangeNom(optionDuMenu) { this.filterParNom = optionDuMenu; }
 
     displayFn(user: User): string {
         // return user ? user.nom + " " + user.prenom : user.nom + " " + user.prenom;
@@ -355,8 +296,8 @@ export class PageCreneauComponent implements OnInit {
                 this.creneauId = data.idCreneau;
                 this.editedCreneau.professeurs = data.professeurs;
                 this.date_creneau = moment.unix(this.editedCreneau.dateDebut).format('YYYY-MM-DD');
-                this.heure_debut = moment.unix(this.editedCreneau.dateDebut).format('HH:mm');
-                this.heure_fin = moment.unix(this.editedCreneau.dateFin).format('HH:mm');
+                this.heure_debut =  moment.unix(this.editedCreneau.dateDebut).format('HH:mm');
+                this.heure_fin =  moment.unix(this.editedCreneau.dateFin).format('HH:mm');
                 this.selectedSallePut = this.editedCreneau.salle;
                 this.selectedProfesseurs = this.editedCreneau.professeurs;
                 this.selectedEleves = this.editedCreneau.eleves;
@@ -367,8 +308,8 @@ export class PageCreneauComponent implements OnInit {
                 this.updateTitre(this.editedCreneau.dateDebut);
 
                 // Salles : liste & selected in edition
-                this.roomsv.getAll(this.currentUser.numero_uai)
-                    .subscribe(data => {
+                this.roomsv.getAll(this.currentUser.idEtablissement)
+                    .subscribe( data => {
                         this.allSalleEtb = data;
 
                         this.allSalleEtb.forEach((salle) => {
