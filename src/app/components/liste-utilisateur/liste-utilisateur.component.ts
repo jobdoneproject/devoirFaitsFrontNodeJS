@@ -90,8 +90,6 @@ export class ListeUtilisateurComponent implements OnInit {
                     }
                 });
             });
-            console.log(this.classeDisponibles);
-            console.log(this.nomDisponibles);
 
             this.utilisateurs$.forEach(arrayNomUtilisateur => {
                 arrayNomUtilisateur.forEach(utilisateur => {

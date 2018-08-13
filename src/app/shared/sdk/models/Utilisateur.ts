@@ -42,7 +42,6 @@ export class Utilisateur implements UtilisateurInterface {
   "password": string;
   accessTokens: any[];
   idEtablissement: Etablissement;
-  selected: boolean;
   constructor(data?: UtilisateurInterface) {
     Object.assign(this, data);
   }

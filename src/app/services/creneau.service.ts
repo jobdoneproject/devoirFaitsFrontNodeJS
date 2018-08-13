@@ -19,7 +19,7 @@ export class CreneauService {
         headers: new Headers({'Content-Type': 'application/json'})
     };
 
-    newCreneau: CourseSlot = {dateDebut: 0, dateFin: 0, professeurs: [], eleves: [], salle: []};
+    newCreneau: CourseSlot = {idCreneau: null, dateDebut: 0, dateFin: 0, professeurs: [], eleves: [], salle: null};
 
     constructor(private http: Http,
                 private  httpClient: HttpClient,
@@ -34,8 +34,9 @@ export class CreneauService {
     createSlot(debut: number, fin: number, eleves: Utilisateur[], profs: Utilisateur[],
                salle: Room, idEtablissement: string) {
         const newCreneau: CourseSlot = {
+            idCreneau: null,
             dateDebut: 0, dateFin: 0,
-            professeurs: [], eleves: [], salle: []
+            professeurs: [], eleves: [], salle: null
         };
         newCreneau.dateDebut = debut;
         newCreneau.dateFin = fin;
@@ -61,11 +62,11 @@ export class CreneauService {
         });
     }
 
-    prepareEditedTimeSlot(id: number, debut: number, fin: number, eleves: Utilisateur[], profs: Utilisateur[],
+    prepareEditedTimeSlot(idCreneau: number, debut: number, fin: number, eleves: Utilisateur[], profs: Utilisateur[],
                           salle: Room, idEtablissement: string) {
-        const editedTimeSlot: CourseSlot = {
+        const editedTimeSlot: CourseSlot = {idCreneau: null,
             dateDebut: 0, dateFin: 0,
-            professeurs: [], eleves: [], salle: []
+            professeurs: [], eleves: [], salle: null
         };
         editedTimeSlot.idCreneau = idCreneau;
         editedTimeSlot.dateDebut = debut;
@@ -73,7 +74,8 @@ export class CreneauService {
         editedTimeSlot.eleves = eleves;
         editedTimeSlot.professeurs = profs;
         editedTimeSlot.salle = salle;
-        this.putSlot(editedTimeSlot, idEtablissement, idCreneau);
+      //  this.putSlot(editedTimeSlot, idEtablissement,);
+       this.putSlot(editedTimeSlot, idEtablissement, idCreneau);
     }
 
     putSlot(editedCreneau: CourseSlot, idEtablissement: string, idCreneau: number) {

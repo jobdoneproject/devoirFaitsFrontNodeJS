@@ -275,14 +275,14 @@ export class PageCreneauComponent implements OnInit {
 
     }
 
-    enleverEleve(eleve: User) {
+    enleverEleve(eleve: Utilisateur) {
         const index: number = this.selectedEleves.indexOf(eleve);
         if (index !== -1) {
             this.selectedEleves.splice(index, 1);
         }
     }
 
-    enleverProfesseur(professeur: User) {
+    enleverProfesseur(professeur: Utilisateur) {
         const index: number = this.selectedProfesseurs.indexOf(professeur);
         if (index !== -1) {
             this.selectedProfesseurs.splice(index, 1);
@@ -308,7 +308,7 @@ export class PageCreneauComponent implements OnInit {
                 this.updateTitre(this.editedCreneau.dateDebut);
 
                 // Salles : liste & selected in edition
-                this.roomsv.getAll(this.currentUser.idEtablissement)
+                this.roomsv.getAll(this.currentUser.numero_uai)
                     .subscribe( data => {
                         this.allSalleEtb = data;
 

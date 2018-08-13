@@ -9,7 +9,7 @@ import {CourseSlot} from '../../model/model.courseslot';
 import {Room} from '../../model/model.room';
 import {UtilisateurApi} from '../../shared/sdk';
 import {AuthGuard} from '../../shared/auth.guard';
-import {Utilisateur, AccessToken} from '../../shared/sdk/models';
+import {Utilisateur} from '../../shared/sdk/models';
 
 @Component({
     selector: 'app-liste-appel',
@@ -24,8 +24,8 @@ export class ListeAppelComponent implements OnInit {
     idCreneau: number;
     editedCreneau: CourseSlot;
     creneauId: number;
-    selectedProfesseurs: User[] = [];
-    selectedEleves: User[] = [];
+    selectedProfesseurs: Utilisateur[] = [];
+    selectedEleves: Utilisateur[] = [];
     titre: String;
     listeProfesseurs: String;
     dateDebut: number;

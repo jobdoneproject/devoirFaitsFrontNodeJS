@@ -2,14 +2,14 @@
 
 declare var Object: any;
 export interface SalleInterface {
+  "idSalle"?: any;
   "nom": string;
-  "id"?: any;
   "etablissementId"?: string;
 }
 
 export class Salle implements SalleInterface {
+  "idSalle": any;
   "nom": string;
-  "id": any;
   "etablissementId": string;
   constructor(data?: SalleInterface) {
     Object.assign(this, data);
@@ -42,15 +42,15 @@ export class Salle implements SalleInterface {
       name: 'Salle',
       plural: 'salles',
       path: 'salles',
-      idName: 'id',
+      idName: 'idSalle',
       properties: {
+        "idSalle": {
+          name: 'idSalle',
+          type: 'any'
+        },
         "nom": {
           name: 'nom',
           type: 'string'
-        },
-        "id": {
-          name: 'id',
-          type: 'any'
         },
         "etablissementId": {
           name: 'etablissementId',

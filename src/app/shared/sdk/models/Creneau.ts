@@ -5,18 +5,18 @@ import {
 
 declare var Object: any;
 export interface CreneauInterface {
-  "dateDebut": Date;
-  "dateFin": Date;
-  "id"?: any;
+  "idCreneau"?: any;
+  "dateDebut": number;
+  "dateFin": number;
   "salleId"?: any;
   "etablissementId"?: string;
   salle?: Salle;
 }
 
 export class Creneau implements CreneauInterface {
-  "dateDebut": Date;
-  "dateFin": Date;
-  "id": any;
+  "idCreneau": any;
+  "dateDebut": number;
+  "dateFin": number;
   "salleId": any;
   "etablissementId": string;
   salle: Salle;
@@ -51,19 +51,19 @@ export class Creneau implements CreneauInterface {
       name: 'Creneau',
       plural: 'creneaux',
       path: 'creneaux',
-      idName: 'id',
+      idName: 'idCreneau',
       properties: {
+        "idCreneau": {
+          name: 'idCreneau',
+          type: 'any'
+        },
         "dateDebut": {
           name: 'dateDebut',
-          type: 'Date'
+          type: 'number'
         },
         "dateFin": {
           name: 'dateFin',
-          type: 'Date'
-        },
-        "id": {
-          name: 'id',
-          type: 'any'
+          type: 'number'
         },
         "salleId": {
           name: 'salleId',
@@ -81,7 +81,7 @@ export class Creneau implements CreneauInterface {
           model: 'Salle',
           relationType: 'belongsTo',
                   keyFrom: 'salleId',
-          keyTo: 'id'
+          keyTo: 'idSalle'
         },
       }
     }
