@@ -54,7 +54,8 @@ export class CalendarSlotComponent implements OnInit {
         if (this.slotValue.salle) {
             return this.slotValue.salle.nom;
         }
-        return " non définie";
+        console.log(this.slotValue.salle)
+        return ' non définie';
     }
 
     public get adresseCreneau(): String {

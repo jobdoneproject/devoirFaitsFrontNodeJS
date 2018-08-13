@@ -11,7 +11,8 @@ import { map} from 'rxjs/operators';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import {environment} from '../../../environments/environment';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
-import {UtilisateurApi} from '../../shared/sdk';
+import { UtilisateurApi} from '../../shared/sdk';
+import { EtablissementApi } from '../../shared/sdk/services';
 
 
 @Component({
@@ -47,7 +48,6 @@ export class ContainerNavbarComponent implements OnInit {
 
     this.etablissements.forEach(etablissement => {
       this.nomEtablissement = etablissement.nomEtablissement;
-
     });
   }
 

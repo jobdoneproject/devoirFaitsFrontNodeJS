@@ -77,7 +77,7 @@ export class PageCreneauComponent implements OnInit {
         this.currentUser = this.userService.getCachedCurrent();
         this.idEtablissement = this.currentUser.numero_uai;
 
-        if (this.currentUser.privilege == 'Administrateur') {
+        if (this.currentUser.privilege === 'Administrateur') {
             this.administrateur = true;
         }
 
@@ -100,9 +100,10 @@ export class PageCreneauComponent implements OnInit {
 
 
         // EDITION CRENEAU
-        if (this.route.snapshot.paramMap.get('id') != null) {
+        if (this.route.snapshot.params.id != null) {
             this.pageModeCreation = false;
-            this.idCreneau = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+          //  this.idCreneau = parseInt(this.route.snapshot.params.get('id'), 10);
+            this.idCreneau = this.route.snapshot.params.id;
             this.getSlot();
 
             // this.roomsv.getAll(this.currentUser.idEtablissement)
@@ -313,7 +314,7 @@ export class PageCreneauComponent implements OnInit {
                         this.allSalleEtb = data;
 
                         this.allSalleEtb.forEach((salle) => {
-                            if (this.editedCreneau.salle.idSalle == salle.idSalle) {
+                            if (this.editedCreneau.salleId == salle.idSalle) {
                                 this.selectedSalle = salle.idSalle;
                             }
                         });
