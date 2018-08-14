@@ -1,6 +1,7 @@
 import { User } from "./model.user";
 import { Room } from "./model.room";
 import {Utilisateur} from '../shared/sdk/models';
+import {Salle} from '../shared/sdk/models';
 
 export class CourseSlot {
     idCreneau: number;
@@ -8,5 +9,5 @@ export class CourseSlot {
     dateFin: number;
     professeurs: Utilisateur[];
     eleves: Utilisateur[];
-    salle: Room;
+    salle: Salle;
 }

@@ -7,7 +7,7 @@ import {User} from '../../model/model.user';
 import {CreneauService} from '../../services/creneau.service';
 import {CourseSlot} from '../../model/model.courseslot';
 import {Room} from '../../model/model.room';
-import {UtilisateurApi} from '../../shared/sdk';
+import {Salle, UtilisateurApi} from '../../shared/sdk';
 import {AuthGuard} from '../../shared/auth.guard';
 import {Utilisateur} from '../../shared/sdk/models';
 
@@ -30,7 +30,7 @@ export class ListeAppelComponent implements OnInit {
     listeProfesseurs: String;
     dateDebut: number;
     dateFin: number;
-    salle: Room;
+    salle: Salle;
 
 
     constructor(private route: ActivatedRoute,

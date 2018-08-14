@@ -8,6 +8,8 @@ export interface CreneauInterface {
   "idCreneau"?: any;
   "dateDebut": number;
   "dateFin": number;
+  "professeursCreneau": any;
+  "elevesCreneau": any;
   "salleId"?: any;
   "etablissementId"?: string;
   salle?: Salle;
@@ -17,6 +19,8 @@ export class Creneau implements CreneauInterface {
   "idCreneau": any;
   "dateDebut": number;
   "dateFin": number;
+  "professeursCreneau": any;
+  "elevesCreneau": any;
   "salleId": any;
   "etablissementId": string;
   salle: Salle;
@@ -65,6 +69,14 @@ export class Creneau implements CreneauInterface {
           name: 'dateFin',
           type: 'number'
         },
+        "professeursCreneau": {
+          name: 'professeursCreneau',
+          type: 'any'
+        },
+        "elevesCreneau": {
+          name: 'elevesCreneau',
+          type: 'any'
+        },
         "salleId": {
           name: 'salleId',
           type: 'any'
@@ -81,7 +93,7 @@ export class Creneau implements CreneauInterface {
           model: 'Salle',
           relationType: 'belongsTo',
                   keyFrom: 'salleId',
-          keyTo: 'idSalle'
+          keyTo: 'id'
         },
       }
     }

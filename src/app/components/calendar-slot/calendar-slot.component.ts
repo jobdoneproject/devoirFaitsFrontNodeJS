@@ -3,11 +3,12 @@ import {duration, utc} from 'moment';
 import {CourseSlot} from '../../model/model.course-slots';
 import {User} from '../../model/model.user';
 import {CreneauService} from '../../services/creneau.service';
-import {Creneau} from '../../shared/sdk/models';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {UtilisateurApi} from '../../shared/sdk';
 import {Utilisateur, AccessToken} from '../../shared/sdk/models';
+import {Creneau} from '../../shared/sdk/models';
+import {CreneauApi} from '../../shared/sdk/';
 import {AuthGuard} from '../../shared/auth.guard';
 
 
@@ -20,14 +21,14 @@ export class CalendarSlotComponent implements OnInit {
 
     currentUser: Utilisateur;
     @Output() onDeleteEvent = new EventEmitter<any>();
-    administrateur: boolean = false;
-    deletedSlot: CourseSlot;
-    @Input() private slotValue: CourseSlot;
+    administrateur: boolean;
+    deletedSlot: Creneau;
+    @Input() private slotValue: Creneau;
 
     constructor(private userService: UtilisateurApi, private creneauService: CreneauService, private router: Router) {
         this.currentUser = this.userService.getCachedCurrent();
 
-        if (this.currentUser.privilege == 'Administrateur') {
+        if (this.currentUser.privilege === 'Administrateur') {
             this.administrateur = true;
         }
     }
@@ -37,8 +38,8 @@ export class CalendarSlotComponent implements OnInit {
     }
 
     public get teachers(): String[] {
-        let arrayToReturn: String[] = [];
-        for (let currentTeacher of this.slotValue.professeurs) {
+        const arrayToReturn: String[] = [];
+        for (const currentTeacher of this.slotValue.professeursCreneau) {
             arrayToReturn.push(`${currentTeacher.nom} ${currentTeacher.prenom}`);
         }
         return arrayToReturn;
@@ -64,7 +65,7 @@ export class CalendarSlotComponent implements OnInit {
         if (this.currentUser.privilege === 'Administrateur') {
             adresse = `creneau/${this.slotValue.idCreneau}`;
         }
-        else if (this.currentUser.privilege === "Professeur") {
+        else if (this.currentUser.privilege === 'professeur') {
             adresse = `liste-appel/${this.slotValue.idCreneau}`;
         }
         else adresse = undefined;
@@ -75,8 +76,8 @@ export class CalendarSlotComponent implements OnInit {
     }
 
     allerSurPageCreneau() {
-        if (this.currentUser.privilege === "Administrateur"
-            || this.currentUser.privilege === "Professeur") {
+        if (this.currentUser.privilege === 'Administrateur'
+            || this.currentUser.privilege === 'professeur') {
             this.router.navigate([this.adresseCreneau]);
         }
     }

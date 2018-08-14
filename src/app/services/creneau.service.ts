@@ -11,6 +11,7 @@ import {UtilisateurApi} from '../shared/sdk';
 import {AuthGuard} from '../shared/auth.guard';
 import {Utilisateur} from '../shared/sdk/models';
 import {Creneau} from '../shared/sdk/models';
+import {Salle} from '../shared/sdk/models';
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class CreneauService {
         headers: new Headers({'Content-Type': 'application/json'})
     };
 
-    newCreneau: Creneau = {idCreneau: null, dateDebut: 0, dateFin: 0, professeurs: [], eleves: [], salle: null};
+//   newCreneau: Creneau = {idCreneau: null, dateDebut: 0, dateFin: 0, professeursCreneau: [], elevesCreneau: [], salle: null};
 
     constructor(private http: Http,
                 private  httpClient: HttpClient,
@@ -32,26 +33,23 @@ export class CreneauService {
         return this.httpClient.get(environment.API_URL + '/Etablissements/' + idEtablissement + '/creneaux/' + idCreneau);
     }
 
-    createSlot(debut: number, fin: number, eleves: Utilisateur[], profs: Utilisateur[],
-               salle: Room, idEtablissement: string) {
-        const newCreneau: CourseSlot = {
-            idCreneau: null,
-            dateDebut: 0, dateFin: 0,
-            professeurs: [], eleves: [], salle: null
-        };
+    createSlot( debut: number, fin: number, professeursCreneau, elevesCreneau, salle: Salle, etablissementId: string) {
+
+       // @ts-ignore
+        const newCreneau: Creneau = {};
+        newCreneau.elevesCreneau = elevesCreneau,
+        newCreneau.professeursCreneau = professeursCreneau,
         newCreneau.dateDebut = debut;
         newCreneau.dateFin = fin;
-        newCreneau.eleves = eleves;
-        newCreneau.professeurs = profs;
-        newCreneau.salle = salle;
-        this.postSlot(newCreneau, idEtablissement);
+        newCreneau.salleId = salle;
+        this.postSlot(newCreneau, etablissementId);
     }
 
-    postSlot(newCreneau: Creneau, idEtablissement: string) {
+    postSlot(newCreneau: Creneau, etablissementId: string) {
         const headers = new Headers({'Content-Type': 'application/json'});
         const options = new RequestOptions({headers: headers});
         const body = JSON.stringify(newCreneau);
-        const url = environment.API_URL + '/Etablissements/' + idEtablissement + '/creneaux';
+        const url = environment.API_URL + '/Etablissements/' + etablissementId + '/creneaux';
         this.http.post(
             url,
             body,
@@ -63,18 +61,21 @@ export class CreneauService {
         });
     }
 
-    prepareEditedTimeSlot(idCreneau: number, debut: number, fin: number, eleves: Utilisateur[], profs: Utilisateur[],
-                          salle: Room, idEtablissement: string) {
-        const editedTimeSlot: Creneau = {idCreneau: null,
+    prepareEditedTimeSlot(idCreneau: number, debut: number, fin: number, eleves, profs, salleId: Salle, idEtablissement: string) {
+        const editedTimeSlot: Creneau = {
+            id: null,
+            idCreneau: null,
             dateDebut: 0, dateFin: 0,
-            Utilisateurs: [], eleves: [], salle: null
+            salleId: null,
+            professeursCreneau: [],
+            elevesCreneau: [],
+            etablissementId: '',
+            salle: null
         };
         editedTimeSlot.idCreneau = idCreneau;
         editedTimeSlot.dateDebut = debut;
         editedTimeSlot.dateFin = fin;
-        editedTimeSlot.eleves = eleves;
-        editedTimeSlot.professeurs = profs;
-        editedTimeSlot.salle = salle;
+        editedTimeSlot.salleId = salleId;
       //  this.putSlot(editedTimeSlot, idEtablissement,);
        this.putSlot(editedTimeSlot, idEtablissement, idCreneau);
     }

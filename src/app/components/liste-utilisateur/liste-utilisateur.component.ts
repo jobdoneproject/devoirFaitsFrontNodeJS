@@ -19,7 +19,7 @@ import {SubscribeOnObservable} from 'rxjs/internal-compatibility';
 import {Location} from '@angular/common';
 import * as $ from 'jquery';
 import * as _ from 'underscore';
-import {EleveClassesPipe} from '../../pipes/eleve-classes.pipe'
+import {EleveClassesPipe} from '../../pipes/eleve-classes.pipe';
 
 @Component({
     selector: 'app-liste-utilisateur',
@@ -48,7 +48,7 @@ export class ListeUtilisateurComponent implements OnInit {
     filterParClasse = 'Toutes';
     filterParNom: string;
     selectedUtilisateurs: Utilisateur[] = [];
-    isSelected: boolean = false;
+    isSelected = false;
     actionDemandee: string;
 
     constructor(
@@ -84,9 +84,9 @@ export class ListeUtilisateurComponent implements OnInit {
             this.utilisateurs$.forEach(arrayClasseUtilisateur => {
                 arrayClasseUtilisateur.forEach(utilisateur => {
                     if (this.classeDisponibles.indexOf(String(utilisateur.classeName)) === -1) {
-                        this.classeDisponibles.push(utilisateur.classeName);
+                        this.classeDisponibles.push(utilisateur.classeName, '');
                         // Dynamically add a column to the model (added in memory because no need to data persist it
-                        utilisateur.selected = false;
+                        utilisateur['selected'] = false;
                     }
                 });
             });
@@ -149,7 +149,7 @@ export class ListeUtilisateurComponent implements OnInit {
             this.selectedUtilisateurs.splice(0, this.selectedUtilisateurs.length);
             this.utilisateurs$.forEach(utilisateurs => {
                 utilisateurs.forEach(utilisateur => {
-                    utilisateur.selected = false;
+                    utilisateur['selected'] = false;
                 });
             });
         }
@@ -159,13 +159,13 @@ export class ListeUtilisateurComponent implements OnInit {
         }
 
         if (this.filterParNom != null) {
-            var regex = new RegExp('.*' + this.filterParNom + '.*', 'i');
+            let regex = new RegExp('.*' + this.filterParNom + '.*', 'i');
             this.selectedUtilisateurs = this.selectedUtilisateurs.filter(s => regex.test(s.nom));
         }
-        console.log('longueur de this.selectedUtilisateurs.length'+ this.selectedUtilisateurs.length);
+        console.log('longueur de this.selectedUtilisateurs.length' + this.selectedUtilisateurs.length);
 
         this.selectedUtilisateurs.forEach(utilisateur => {
-            utilisateur.selected = true;
+            utilisateur['selected'] = false;
         });
     }
 
@@ -191,9 +191,10 @@ export class ListeUtilisateurComponent implements OnInit {
     actionsGroupees() {
         // const event = document.getElementById('selectAction').nodeValue;
         console.log(this.actionDemandee);
-        if (this.actionDemandee == 'supprimer') {
-            if (confirm('Voulez-vous vraiment supprimer ' + this.selectedUtilisateurs.length + " " + this.typeUtilisateur + "(s) ?")) {
-                this.userService.deleteUsers(this.typeUtilisateur, this.currentUser.idEtablissement, this.selectedUtilisateurs);
+        if (this.actionDemandee === 'supprimer') {
+            if (confirm('Voulez-vous vraiment supprimer ' + this.selectedUtilisateurs.length + ' ' + this.typeUtilisateur + '(s) ?')) {
+              //  this.userService.deleteUsers(this.typeUtilisateur, this.currentUser.idEtablissement, this.selectedUtilisateurs);
+                this.userService.deleteById(this.selectedUtilisateurs);
                 this.userService.getUsers(this.typeUtilisateur, this.currentUser.idEtablissement).subscribe(newUsers => {
                     this.utilisateurs$.next(newUsers);
                 });
@@ -202,25 +203,32 @@ export class ListeUtilisateurComponent implements OnInit {
             }
         }
 
-        if (this.actionDemandee == 'disponible') {
+        if (this.actionDemandee === 'disponible') {
             this.selectedUtilisateurs.forEach(utilisateur => {
                 utilisateur.disponible = true;
+                const newid = utilisateur.id;
+                this.userService.updateAttributes(utilisateur.id, {'disponible': true});
             });
-            this.userService.updateUsers(this.typeUtilisateur, this.currentUser.idEtablissement, this.selectedUtilisateurs);
+
+
+            // updateUsers(this.typeUtilisateur, this.currentUser.idEtablissement, this.selectedUtilisateurs);
         }
 
-        if (this.actionDemandee == 'indisponible') {
+        if (this.actionDemandee === 'indisponible') {
             this.selectedUtilisateurs.forEach(utilisateur => {
                 utilisateur.disponible = false;
+                const newid = utilisateur.id;
+                this.userService.updateAttributes(utilisateur.id, {'disponible': false});
             });
 
-            this.userService.updateUsers(this.typeUtilisateur, this.currentUser.idEtablissement, this.selectedUtilisateurs);
+
+           // this.userService.updateUsers(this.typeUtilisateur, this.currentUser.idEtablissement, this.selectedUtilisateurs);
 
         }
 
         console.log('collect : ' + this.selectedUtilisateurs.length);
 
-        console.log("action : " + event);
+        console.log('action : ' + event);
         //document.forms["actiongroupee"].reset();
     }
 
