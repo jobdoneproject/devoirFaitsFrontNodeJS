@@ -7,9 +7,10 @@ import {User} from '../../model/model.user';
 import {CreneauService} from '../../services/creneau.service';
 import {CourseSlot} from '../../model/model.courseslot';
 import {Room} from '../../model/model.room';
-import {Salle, UtilisateurApi} from '../../shared/sdk';
+import {Creneau, Salle, UtilisateurApi} from '../../shared/sdk';
 import {AuthGuard} from '../../shared/auth.guard';
 import {Utilisateur} from '../../shared/sdk/models';
+
 
 @Component({
     selector: 'app-liste-appel',
@@ -21,8 +22,9 @@ export class ListeAppelComponent implements OnInit {
     currentUser: Utilisateur;
     professeur: boolean;
     idEtablissement: string;
-    idCreneau: number;
-    editedCreneau: CourseSlot;
+    salleId: string;
+    idCreneau: string;
+    editedCreneau: Creneau;
     creneauId: number;
     selectedProfesseurs: Utilisateur[] = [];
     selectedEleves: Utilisateur[] = [];
@@ -30,7 +32,7 @@ export class ListeAppelComponent implements OnInit {
     listeProfesseurs: String;
     dateDebut: number;
     dateFin: number;
-    salle: Salle;
+
 
 
     constructor(private route: ActivatedRoute,
@@ -42,11 +44,12 @@ export class ListeAppelComponent implements OnInit {
         this.currentUser = this.userService.getCachedCurrent();
         this.idEtablissement = this.currentUser.numero_uai;
 
-        if (this.currentUser.privilege == 'Professeur' || this.currentUser.privilege == 'Administrateur') {
+        if (this.currentUser.privilege === 'Professeur' || this.currentUser.privilege === 'Administrateur') {
             this.professeur = true;
         }
 
-        this.idCreneau = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+        this.idCreneau = this.route.snapshot.paramMap.get('id');
+        // this.idCreneau = parseInt(this.route.snapshot.paramMap.get('id'), 10);
         this.getSlot();
 
     }
@@ -56,18 +59,18 @@ export class ListeAppelComponent implements OnInit {
 
     public getSlot() {
         this.creneauService.getSlot(this.idEtablissement, this.idCreneau)
-            .subscribe((data: CourseSlot) => {
+            .subscribe((data: Creneau) => {
                 this.editedCreneau = data;
                 this.creneauId = data.idCreneau;
-                this.editedCreneau.professeurs = data.professeurs;
+                this.editedCreneau.professeursCreneau = data.professeursCreneau;
                 // this.date_creneau = moment.unix(this.editedCreneau.dateDebut).format("YYYY-MM-DD");
                 // this.heure_debut =  moment.unix(this.editedCreneau.dateDebut).format("HH:mm");
                 // this.heure_fin =  moment.unix(this.editedCreneau.dateFin).format("HH:mm");
-                this.salle = this.editedCreneau.salle;
+                this.salleId = this.editedCreneau.salleId;
                 this.dateDebut = this.editedCreneau.dateDebut;
                 this.dateFin = this.editedCreneau.dateFin;
-                this.selectedProfesseurs = this.editedCreneau.professeurs;
-                this.selectedEleves = this.editedCreneau.eleves;
+                this.selectedProfesseurs = this.editedCreneau.professeursCreneau;
+                this.selectedEleves = this.editedCreneau.elevesCreneau;
 
                 // Backup edited Creneau
                 // this.creneauEditedBackup = this.editedCreneau;
@@ -92,7 +95,7 @@ export class ListeAppelComponent implements OnInit {
             this.dateFin,
             this.selectedEleves,
             this.selectedProfesseurs,
-            this.salle,
+            this.salleId,
             this.idEtablissement);
     }
 

@@ -985,13 +985,13 @@ export class EtablissementApi extends BaseLoopBackApi {
   }
 
   /**
-   * Fetches belongsTo relation salle.
+   * Find a related item by id for salleCreneaux.
    *
    * @param {any} id Etablissement id
    *
-   * @param {any} nk Foreign key for creneaux.
+   * @param {any} nk Foreign key for Salles.
    *
-   * @param {boolean} refresh 
+   * @param {any} fk Foreign key for salleCreneaux
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -1002,17 +1002,214 @@ export class EtablissementApi extends BaseLoopBackApi {
    * This usually means the response is a `Etablissement` object.)
    * </em>
    */
-  public getCreneauxSalle(id: any, nk: any, refresh: any = {}, customHeaders?: Function): Observable<any> {
+  public findByIdSallesSalleCreneaux(id: any, nk: any, fk: any, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Etablissements/:id/creneaux/:nk/salle";
+    "/Etablissements/:id/Salles/:nk/salleCreneaux/:fk";
+    let _routeParams: any = {
+      id: id,
+      nk: nk,
+      fk: fk
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Delete a related item by id for salleCreneaux.
+   *
+   * @param {any} id Etablissement id
+   *
+   * @param {any} nk Foreign key for Salles.
+   *
+   * @param {any} fk Foreign key for salleCreneaux
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public destroyByIdSallesSalleCreneaux(id: any, nk: any, fk: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "DELETE";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Etablissements/:id/Salles/:nk/salleCreneaux/:fk";
+    let _routeParams: any = {
+      id: id,
+      nk: nk,
+      fk: fk
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Update a related item by id for salleCreneaux.
+   *
+   * @param {any} id Etablissement id
+   *
+   * @param {any} nk Foreign key for Salles.
+   *
+   * @param {any} fk Foreign key for salleCreneaux
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Etablissement` object.)
+   * </em>
+   */
+  public updateByIdSallesSalleCreneaux(id: any, nk: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "PUT";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Etablissements/:id/Salles/:nk/salleCreneaux/:fk";
+    let _routeParams: any = {
+      id: id,
+      nk: nk,
+      fk: fk
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Queries salleCreneaux of salle.
+   *
+   * @param {any} id Etablissement id
+   *
+   * @param {any} nk Foreign key for Salles.
+   *
+   * @param {object} filter 
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Etablissement` object.)
+   * </em>
+   */
+  public getSallesSalleCreneaux(id: any, nk: any, filter: LoopBackFilter = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Etablissements/:id/Salles/:nk/salleCreneaux";
     let _routeParams: any = {
       id: id,
       nk: nk
     };
     let _postBody: any = {};
     let _urlParams: any = {};
-    if (typeof refresh !== 'undefined' && refresh !== null) _urlParams.refresh = refresh;
+    if (typeof filter !== 'undefined' && filter !== null) _urlParams.filter = filter;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in salleCreneaux of this model.
+   *
+   * @param {any} id Etablissement id
+   *
+   * @param {any} nk Foreign key for Salles.
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Etablissement` object.)
+   * </em>
+   */
+  public createSallesSalleCreneaux(id: any, nk: any, data: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Etablissements/:id/Salles/:nk/salleCreneaux";
+    let _routeParams: any = {
+      id: id,
+      nk: nk
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Deletes all salleCreneaux of this model.
+   *
+   * @param {any} id Etablissement id
+   *
+   * @param {any} nk Foreign key for Salles.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public deleteSallesSalleCreneaux(id: any, nk: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "DELETE";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Etablissements/:id/Salles/:nk/salleCreneaux";
+    let _routeParams: any = {
+      id: id,
+      nk: nk
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Counts salleCreneaux of salle.
+   *
+   * @param {any} id Etablissement id
+   *
+   * @param {any} nk Foreign key for Salles.
+   *
+   * @param {object} where Criteria to match model instances
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * Data properties:
+   *
+   *  - `count` – `{number}` - 
+   */
+  public countSallesSalleCreneaux(id: any, nk: any, where: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Etablissements/:id/Salles/:nk/salleCreneaux/count";
+    let _routeParams: any = {
+      id: id,
+      nk: nk
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof where !== 'undefined' && where !== null) _urlParams.where = where;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
@@ -1140,6 +1337,42 @@ export class EtablissementApi extends BaseLoopBackApi {
     let _method: string = "POST";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
     "/Etablissements/:id/utilisateurs/:nk/accessTokens";
+    let _routeParams: any = {
+      id: id,
+      nk: nk
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in salleCreneaux of this model.
+   *
+   * @param {any} id Etablissement id
+   *
+   * @param {any} nk Foreign key for Salles.
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Etablissement` object.)
+   * </em>
+   */
+  public createManySallesSalleCreneaux(id: any, nk: any, data: any[] = [], customHeaders?: Function): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Etablissements/:id/Salles/:nk/salleCreneaux";
     let _routeParams: any = {
       id: id,
       nk: nk

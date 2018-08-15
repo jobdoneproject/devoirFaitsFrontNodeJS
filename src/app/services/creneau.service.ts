@@ -1,17 +1,9 @@
 import {Injectable} from '@angular/core';
-import {CourseSlot} from '../model/model.courseslot';
-import {User} from '../model/model.user';
-import {Http, Response, RequestOptions, Headers} from '@angular/http';
-import {Moment} from 'moment';
-import {Room} from '../model/model.room';
+import {Headers, Http, RequestOptions} from '@angular/http';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {UtilisateurApi} from '../shared/sdk';
-import {AuthGuard} from '../shared/auth.guard';
-import {Utilisateur} from '../shared/sdk/models';
-import {Creneau} from '../shared/sdk/models';
-import {Salle} from '../shared/sdk/models';
+import {Creneau, Salle} from '../shared/sdk/models';
 
 
 @Injectable()
@@ -28,20 +20,19 @@ export class CreneauService {
                 public router: Router) {
     }
 
-    getSlot(idEtablissement: string, idCreneau: number) {
+    getSlot(idEtablissement: string, idCreneau: string) {
         const url = environment.API_URL + '/Etablissements/' + idEtablissement + '/creneaux/' + idCreneau;
         return this.httpClient.get(environment.API_URL + '/Etablissements/' + idEtablissement + '/creneaux/' + idCreneau);
     }
 
-    createSlot( debut: number, fin: number, professeursCreneau, elevesCreneau, salle: Salle, etablissementId: string) {
+    createSlot(debut: number, fin: number, professeursCreneau, elevesCreneau, salleCreneau: string, etablissementId: string) {
 
-       // @ts-ignore
-        const newCreneau: Creneau = {};
+        const newCreneau: Creneau = { idCreneau: null, dateDebut: 0, dateFin: 0, professeursCreneau: [], elevesCreneau: [], salleId: '', etablissementId: ''};
         newCreneau.elevesCreneau = elevesCreneau,
         newCreneau.professeursCreneau = professeursCreneau,
         newCreneau.dateDebut = debut;
         newCreneau.dateFin = fin;
-        newCreneau.salleId = salle;
+        newCreneau.salleId = salleCreneau;
         this.postSlot(newCreneau, etablissementId);
     }
 
@@ -57,27 +48,25 @@ export class CreneauService {
         ).subscribe(res => {
             console.log(res);
 
-                this.router.navigate(['/profile']);
+            this.router.navigate(['/profile']);
         });
     }
 
-    prepareEditedTimeSlot(idCreneau: number, debut: number, fin: number, eleves, profs, salleId: Salle, idEtablissement: string) {
-        const editedTimeSlot: Creneau = {
-            id: null,
+    prepareEditedTimeSlot(idCreneau: number, debut: number, fin: number, eleves, profs, salleId: string, idEtablissement: string) {
+        let editedTimeSlot: Creneau = {
             idCreneau: null,
             dateDebut: 0, dateFin: 0,
-            salleId: null,
+            salleId: '',
             professeursCreneau: [],
             elevesCreneau: [],
-            etablissementId: '',
-            salle: null
+            etablissementId: ''
         };
         editedTimeSlot.idCreneau = idCreneau;
         editedTimeSlot.dateDebut = debut;
         editedTimeSlot.dateFin = fin;
         editedTimeSlot.salleId = salleId;
-      //  this.putSlot(editedTimeSlot, idEtablissement,);
-       this.putSlot(editedTimeSlot, idEtablissement, idCreneau);
+        //  this.putSlot(editedTimeSlot, idEtablissement,);
+        this.putSlot(editedTimeSlot, idEtablissement, idCreneau);
     }
 
     putSlot(editedCreneau: Creneau, idEtablissement: string, idCreneau: number) {

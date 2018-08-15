@@ -1,18 +1,21 @@
 /* tslint:disable */
+import {
+  Creneau
+} from '../index';
 
 declare var Object: any;
 export interface SalleInterface {
   "idSalle"?: any;
   "nom": string;
-  "id"?: any;
   "etablissementId"?: string;
+  salleCreneaux?: Creneau[];
 }
 
 export class Salle implements SalleInterface {
   "idSalle": any;
   "nom": string;
-  "id": any;
   "etablissementId": string;
+  salleCreneaux: Creneau[];
   constructor(data?: SalleInterface) {
     Object.assign(this, data);
   }
@@ -44,7 +47,7 @@ export class Salle implements SalleInterface {
       name: 'Salle',
       plural: 'salles',
       path: 'salles',
-      idName: 'id',
+      idName: 'idSalle',
       properties: {
         "idSalle": {
           name: 'idSalle',
@@ -54,16 +57,20 @@ export class Salle implements SalleInterface {
           name: 'nom',
           type: 'string'
         },
-        "id": {
-          name: 'id',
-          type: 'any'
-        },
         "etablissementId": {
           name: 'etablissementId',
           type: 'string'
         },
       },
       relations: {
+        salleCreneaux: {
+          name: 'salleCreneaux',
+          type: 'Creneau[]',
+          model: 'Creneau',
+          relationType: 'hasMany',
+                  keyFrom: 'idSalle',
+          keyTo: 'salleId'
+        },
       }
     }
   }

@@ -53,10 +53,10 @@ export class CalendarSlotComponent implements OnInit {
     }
 
     public get salle(): String {
-        if (this.slotValue.salle) {
-            return this.slotValue.salle.nom;
+        if (this.slotValue.salleId) {
+            return this.slotValue.salleId;
         }
-        console.log(this.slotValue.salle);
+        console.log(this.slotValue.salleId);
         return ' non définie';
     }
 
@@ -64,11 +64,9 @@ export class CalendarSlotComponent implements OnInit {
         let adresse: String;
         if (this.currentUser.privilege === 'Administrateur') {
             adresse = `creneau/${this.slotValue.idCreneau}`;
-        }
-        else if (this.currentUser.privilege === 'professeur') {
+        } else if (this.currentUser.privilege === 'professeur') {
             adresse = `liste-appel/${this.slotValue.idCreneau}`;
-        }
-        else adresse = undefined;
+        } else { adresse = undefined; }
         return adresse;
     }
 

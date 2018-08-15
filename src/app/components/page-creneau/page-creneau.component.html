@@ -40,11 +40,11 @@
                           [(ngModel)]="heure_fin" required>
                         </div>
                         <div class="form-group">
-                          <label for="salle-creneau">Salle</label>
+                          <label for="listSalle">Salle</label>
                           <select class="form-control" #selectedValue name="selectedSalles" 
                                   id="selectedSalles" [(ngModel)]="selectedSalle" 
                                   (ngModelChange)="addSalleToSelected($event)">
-                              <option *ngFor="let salle of allSalleEtb" [value]="salle.idSalle">
+                              <option *ngFor="let salle of allSalleEtb" [value]="salle.id">
                                   {{salle.nom}}
                               </option>
                           </select>
