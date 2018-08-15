@@ -8,7 +8,7 @@ import {CreneauService} from '../../services/creneau.service';
 import {Room} from '../../model/model.room';
 import {RoomService} from '../../services/room.service';
 import {CourseSlot} from '../../model/model.courseslot';
-import {Utilisateur} from '../../shared/sdk/models';
+import {Salle, Utilisateur} from '../../shared/sdk/models';
 import {UtilisateurApi} from '../../shared/sdk/services';
 import {AuthGuard} from '../../shared/auth.guard';
 import {EtablissementApi} from '../../shared/sdk';
@@ -29,6 +29,7 @@ export class PageCreneauComponent implements OnInit {
     currentUser: Utilisateur;
     administrateur: boolean;
     errorMessage: string;
+    listSalle: Observable<any>;
     listEleve: Observable<any>;
     listProfesseur: Observable<any>;
     @Input() date_creneau: any;
@@ -41,11 +42,11 @@ export class PageCreneauComponent implements OnInit {
     filteredEleve: Observable<any[]>;
     allSalleEtb: Observable<any>;
     idEtablissement: string;
-    selectedSalle: Room;
+    selectedSalle: Salle;
     selectedSallePut: Room;
     idCreneau: number;
     editedCreneau: CourseSlot;
-    salle: Room;
+    salle: Salle;
     creneauId: number;
     pageModeCreation: boolean;
     creneauEditedBackup: CourseSlot;
@@ -78,7 +79,7 @@ export class PageCreneauComponent implements OnInit {
 
         this.listEleve.forEach(arrayNomUtilisateur => {
             arrayNomUtilisateur.forEach(utilisateur => {
-                if (this.nomAndClasses.indexOf(utilisateur.nom) == -1) {
+                if (this.nomAndClasses.indexOf(utilisateur.nom) === -1) {
                     this.nomAndClasses.push(utilisateur.nom);
                 }
             });
@@ -113,7 +114,7 @@ export class PageCreneauComponent implements OnInit {
 
             this.roomsv.getAll(this.currentUser.numero_uai)
                 .subscribe(data => {
-                    this.allSalleEtb = data;
+                    this.listSalle = data;
                 });
 
             // Placeholder Date et heures
@@ -225,11 +226,12 @@ export class PageCreneauComponent implements OnInit {
     addSalleToSelected(value) {
 
         this.allSalleEtb.forEach((salle) => {
-            if (value == salle.idSalle) {
+            if (value === this.salle.idSalle) {
                 console.log('found Id : ' + value);
                 this.selectedSallePut = salle;
             }
-        });
+        }
+        );
 
     }
 
@@ -313,7 +315,7 @@ export class PageCreneauComponent implements OnInit {
                 this.date_creneau = moment.unix(this.editedCreneau.dateDebut).format('YYYY-MM-DD');
                 this.heure_debut = moment.unix(this.editedCreneau.dateDebut).format('HH:mm');
                 this.heure_fin = moment.unix(this.editedCreneau.dateFin).format('HH:mm');
-                this.selectedSallePut = this.editedCreneau.salle;
+                this.selectedSallePut = this.editedCreneau.s;
                 this.selectedProfesseurs = this.editedCreneau.professeurs;
                 this.selectedEleves = this.editedCreneau.eleves;
 
