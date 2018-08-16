@@ -44,7 +44,7 @@
                           <select class="form-control" #selectedValue name="selectedSalles" 
                                   id="selectedSalles" [(ngModel)]="selectedSalle" 
                                   (ngModelChange)="addSalleToSelected($event)">
-                              <option *ngFor="let salle of allSalleEtb" [value]="salle.id">
+                              <option *ngFor="let salle of allSalleEtb" [value]="salle.idSalle">
                                   {{salle.nom}}
                               </option>
                           </select>

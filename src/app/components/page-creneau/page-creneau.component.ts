@@ -44,7 +44,8 @@ export class PageCreneauComponent implements OnInit {
     allSalleEtb: Observable<any>;
     idEtablissement: string;
     selectedSalle: Room;
-    selectedSallePut: Room;
+    //selectedSallePut: Room;
+    selectedSallePut: string; // Changement fait par moi.
     idCreneau: number;
     editedCreneau: CourseSlot;
     salle: Room;
@@ -192,7 +193,7 @@ export class PageCreneauComponent implements OnInit {
         const eleveAdded = this.myControl.value;
         let doublon = false;
         this.selectedEleves.forEach(eleve => {
-            if (eleve.idUtilisateur === eleveAdded.idUtilisateur) {
+            if (eleve.id === eleveAdded.idUtilisateur) {
                 doublon = true;
             }
         });
@@ -228,7 +229,7 @@ export class PageCreneauComponent implements OnInit {
         this.allSalleEtb.forEach((salle) => {
             if (value === salle.idSalle) {
                 console.log('found Id : ' + value);
-                this.selectedSallePut = salle;
+                this.selectedSallePut = salle.nom;
             }
         });
 
@@ -298,7 +299,7 @@ export class PageCreneauComponent implements OnInit {
         }
     }
 
-    enleverProfesseur(professeur: User) {
+    enleverProfesseur(professeur: Utilisateur) {
         const index: number = this.selectedProfesseurs.indexOf(professeur);
         if (index !== -1) {
             this.selectedProfesseurs.splice(index, 1);
