@@ -9,5 +9,5 @@ export class CourseSlot {
     dateFin: number;
     professeurs: Utilisateur[];
     eleves: Utilisateur[];
-    salle: Room;
+    salle: string;
 }
