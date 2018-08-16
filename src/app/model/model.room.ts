@@ -1,5 +1,5 @@
 export class Room {
-    idSalle: number;
-    nom: String;
-    id_etablissement: string;
+    idSalle: string;
+    nomSalle: string;
+    etablissementId: string;
 };

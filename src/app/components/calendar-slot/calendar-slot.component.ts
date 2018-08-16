@@ -47,16 +47,17 @@ export class CalendarSlotComponent implements OnInit {
 
     public get duration(): Date {
         const durationInstance = this.slotValue.dateFin - this.slotValue.dateDebut;
-        let date = new Date(1970, 0, 1);
+        const date = new Date(1970, 0, 1);
         date.setSeconds(durationInstance);
         return date;
     }
 
     public get salle(): String {
         if (this.slotValue.salleId) {
+
             return this.slotValue.salleId;
         }
-        console.log(this.slotValue.salleId);
+      //  console.log(this.slotValue.salleId);
         return ' non définie';
     }
 
@@ -80,7 +81,7 @@ export class CalendarSlotComponent implements OnInit {
         }
     }
 
-    deleteSlot(slotId: number) {
+    deleteSlot(slotId: string) {
         let savedDeletedSlot: Creneau;
         this.creneauService.getSlot(this.currentUser.numero_uai, slotId).subscribe((data: Creneau) => {
             savedDeletedSlot = data;
@@ -90,7 +91,7 @@ export class CalendarSlotComponent implements OnInit {
         });
     }
 
-    goToChecklist(slotId: number) {
+    goToChecklist(slotId: string) {
         this.router.navigate(['liste-appel/' + slotId]);
     }
 

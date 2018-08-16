@@ -44,9 +44,10 @@ export class PageCreneauComponent implements OnInit {
     allSalleEtb: Observable<any>;
     idEtablissement: string;
     selectedSalle: Room;
-    //selectedSallePut: Room;
+    // selectedSallePut: Room;
     selectedSallePut: string; // Changement fait par moi.
-    idCreneau: number;
+    selectedSalleId: string;
+    idCreneau: string;
     editedCreneau: CourseSlot;
     salle: Room;
     creneauId: number;
@@ -91,7 +92,8 @@ export class PageCreneauComponent implements OnInit {
         // EDITION CRENEAU
         if (this.route.snapshot.paramMap.get('id') !== null) {
             this.pageModeCreation = false;
-            this.idCreneau = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+            // this.idCreneau = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+            this.idCreneau = this.route.snapshot.paramMap.get('id');
             this.getSlot();
 
             // this.roomsv.getAll(this.currentUser.idEtablissement)
@@ -230,6 +232,7 @@ export class PageCreneauComponent implements OnInit {
             if (value === salle.idSalle) {
                 console.log('found Id : ' + value);
                 this.selectedSallePut = salle.nom;
+                this.selectedSalleId = salle.idSalle;
             }
         });
 
@@ -245,7 +248,7 @@ export class PageCreneauComponent implements OnInit {
             moment(this.date_creneau + ' ' + this.heure_fin).unix(),
             this.selectedEleves,
             this.selectedProfesseurs,
-            this.selectedSallePut,
+            this.selectedSalleId,
             this.idEtablissement);
     }
 
@@ -292,7 +295,7 @@ export class PageCreneauComponent implements OnInit {
 
     }
 
-    enleverEleve(eleve: User) {
+    enleverEleve(eleve: Utilisateur) {
         const index: number = this.selectedEleves.indexOf(eleve);
         if (index !== -1) {
             this.selectedEleves.splice(index, 1);
@@ -311,13 +314,13 @@ export class PageCreneauComponent implements OnInit {
             .subscribe((data: CourseSlot) => {
                 this.editedCreneau = data;
                 this.creneauId = data.idCreneau;
-                this.editedCreneau.professeurs = data.professeurs;
+              //  this.editedCreneau.professeurs = data.professeurs;
                 this.date_creneau = moment.unix(this.editedCreneau.dateDebut).format('YYYY-MM-DD');
                 this.heure_debut = moment.unix(this.editedCreneau.dateDebut).format('HH:mm');
                 this.heure_fin = moment.unix(this.editedCreneau.dateFin).format('HH:mm');
-                this.selectedSallePut = this.editedCreneau.salle;
-                this.selectedProfesseurs = this.editedCreneau.professeurs;
-                this.selectedEleves = this.editedCreneau.eleves;
+                this.selectedSallePut = this.editedCreneau.salleId;
+                this.selectedProfesseurs = this.editedCreneau.professeursCreneau;
+                this.selectedEleves = this.editedCreneau.elevesCreneau;
 
                 // Backup edited Creneau
                 this.creneauEditedBackup = this.editedCreneau;
@@ -330,7 +333,7 @@ export class PageCreneauComponent implements OnInit {
                         this.allSalleEtb = data;
 
                         this.allSalleEtb.forEach((salle) => {
-                            if (this.editedCreneau.salleId === salle.idSalle) {
+                            if (this.editedCreneau.salleId === salle.nomSalle) {
                                 this.selectedSalle = salle.idSalle;
                             }
                         });

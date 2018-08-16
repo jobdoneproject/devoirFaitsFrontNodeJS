@@ -21,39 +21,39 @@ export class RoomService {
     constructor(private http: Http) {
     }
 
-    createNew(idEtablissement: string, name: String) {
-        this.url = environment.API_URL + '/Etablissements/' + idEtablissement + '/Salles';
+    createNew(etablissementId: string, name: String) {
+        this.url = environment.API_URL + '/Etablissements/' + etablissementId + '/Salles';
         // this.http.post(this.url, {"nom":name}).subscribe(res => console.log(res.json()));
-        return this.http.post(this.url, {'nom': name});
+        return this.http.post(this.url, {'nomSalle': name});
     }
 
-    getAll(idEtablissement: string): Observable<any> {
-        this.url = environment.API_URL + '/Etablissements/' + idEtablissement + '/Salles/';
+    getAll(etablissementId: string): Observable<any> {
+        this.url = environment.API_URL + '/Etablissements/' + etablissementId + '/Salles/';
         return this.http.get(this.url).pipe(map((resp: Response) => resp.json()));
     }
 
-    getById(idEtablissement: string, id: number) {
-        this.url = environment.API_URL + '/Etablissements/' + idEtablissement + '/Salles/' + id + '/';
+    getById(etablissementId: string, id: number) {
+        this.url = environment.API_URL + '/Etablissements/' + etablissementId + '/Salles/' + id + '/';
         return this.http.get(this.url).pipe(map((resp: Response) => resp.json()));
     }
 
-    deleteSelected(idEtablissement: string, id: number) {
-        this.url = environment.API_URL + '/Etablissements/' + idEtablissement + '/Salles/' + id + '/';
+    deleteSelected(etablissementId: string, id: string) {
+        this.url = environment.API_URL + '/Etablissements/' + etablissementId + '/Salles/' + id + '/';
         // return this.http.delete(this.url).subscribe(res => console.log(res.json()));
         return this.http.delete(this.url);
     }
 
-    updateSelected(idEtablissement: string, id: number, name: string) {
-        const room: Room = {id_etablissement: idEtablissement, idSalle: id, nom: name};
-        this.url = environment.API_URL + '/Etablissements/' + idEtablissement + '/Salles/' + id + '/';
+    updateSelected(etablissementId: string, id: string, name: string) {
+        const room: Room = {etablissementId: etablissementId, idSalle: id, nomSalle: name};
+        this.url = environment.API_URL + '/Etablissements/' + etablissementId + '/Salles/' + id + '/';
         let body = JSON.stringify(room);
         this.http.put(this.url, body, this.options).subscribe(res => console.log(res.json()));
     }
 
-    updateSelected2(idEtablissement: string, id: number, name: string) {
-        const room: Room = {id_etablissement: idEtablissement, idSalle: id, nom: name};
-        this.url = environment.API_URL + '/Etablissements/' + idEtablissement + '/Salles/' + id + '/';
+    updateSelected2 (idEtablissement: string, id: string, name: string) {
+        const room: Room = {etablissementId: idEtablissement, idSalle: id, nomSalle: name};
+        this.url = environment.API_URL + '/Etablissements/' + idEtablissement + '/salles/' + id + '/';
         let body = JSON.stringify(room);
-        return this.http.put(this.url, body, this.options);
+        return this.http.put(this.url, body, this.options );
     }
 }

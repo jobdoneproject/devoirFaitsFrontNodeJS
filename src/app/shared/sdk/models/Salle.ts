@@ -6,14 +6,14 @@ import {
 declare var Object: any;
 export interface SalleInterface {
   "idSalle"?: any;
-  "nom": string;
+  "nomSalle": string;
   "etablissementId"?: string;
   salleCreneaux?: Creneau[];
 }
 
 export class Salle implements SalleInterface {
   "idSalle": any;
-  "nom": string;
+  "nomSalle": string;
   "etablissementId": string;
   salleCreneaux: Creneau[];
   constructor(data?: SalleInterface) {
@@ -53,8 +53,8 @@ export class Salle implements SalleInterface {
           name: 'idSalle',
           type: 'any'
         },
-        "nom": {
-          name: 'nom',
+        "nomSalle": {
+          name: 'nomSalle',
           type: 'string'
         },
         "etablissementId": {

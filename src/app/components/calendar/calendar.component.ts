@@ -10,7 +10,7 @@ import { CreneauService } from '../../services/creneau.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../model/model.user';
 import { Utilisateur, AccessToken } from '../../shared/sdk/models';
-import {UtilisateurApi} from "../../shared/sdk";
+import {UtilisateurApi} from '../../shared/sdk';
 import { AuthGuard } from '../../shared/auth.guard';
 
 @Component({
@@ -20,7 +20,7 @@ import { AuthGuard } from '../../shared/auth.guard';
 })
 export class CalendarComponent implements OnInit {
 
-    currentUser: Utilisateur;
+  currentUser: Utilisateur;
   cancelDeleteSlot: any;
   @Input() year: number;
   @Input() weekNumber: number;
@@ -58,7 +58,7 @@ export class CalendarComponent implements OnInit {
     this.cancelDeleteSlot = null;
   }
 
-  receiveUpdateOnDeleteSlot(slot : any) {
+  receiveUpdateOnDeleteSlot(slot: any) {
     this.cancelDeleteSlot = slot;
     this.updateSlots();
   }

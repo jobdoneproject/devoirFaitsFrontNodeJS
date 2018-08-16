@@ -145,7 +145,7 @@ export class ListeAppelComponent implements OnInit {
             moment.unix(dateDebut).format('DD ') +
             moisString +
             moment.unix(dateDebut).format(' YYYY à HH:mm') +
-            ' - salle ' + this.editedCreneau.salle.nom;
+            ' - salle ' + this.editedCreneau.salleId;
     }
 
     public onSlideChange(value, eleve) {
