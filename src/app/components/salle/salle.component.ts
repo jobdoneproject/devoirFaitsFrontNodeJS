@@ -48,10 +48,10 @@ export class SalleComponent implements OnInit {
     constructor(private roomsv: RoomService, public authService: AuthGuard, public router: Router, private userService: UtilisateurApi) {
 
         this.currentUser = this.userService.getCachedCurrent();
-        if (this.currentUser.privilege == 'Administrateur') {
+        if (this.currentUser.privilege === 'Administrateur') {
             this.administrateur = true;
         }
-        if (this.currentUser.privilege != 'Administrateur') {
+        if (this.currentUser.privilege !== 'Administrateur') {
             this.router.navigate(['/profile']);
         }
 
@@ -114,7 +114,7 @@ export class SalleComponent implements OnInit {
         let doublon = false;
         // for (let i = 0; i < this.allSalles.length; i++){
         this.allSalles.forEach(salle => {
-            if (salle.nom === nom) {
+            if (salle.nomSalle === nom) {
                 doublon = true;
                 // console.log('DOUBLON');
                 this.doublonInfo = 'Salle \'' + nom + '\' déjà enregistrée.';
@@ -140,7 +140,7 @@ export class SalleComponent implements OnInit {
 
     displayFn(salle: Room): String {
         if (salle) {
-            return salle ? salle.nom : salle.nom;
+            return salle ? salle.nomSalle : salle.nomSalle;
         }
     }
 
@@ -152,7 +152,7 @@ export class SalleComponent implements OnInit {
     onSelectionChangedById(id) {
         console.log(id);
         for (let i = 0; i < this.allSalles.length; i++) {
-            if (this.allSalles[i].idSalle == id) {
+            if (this.allSalles[i].idSalle === id) {
                 this.selectedSalle = this.allSalles[i];
             }
         }
@@ -161,7 +161,6 @@ export class SalleComponent implements OnInit {
 
     updateSalle(salle) {
         this.roomsv
-        // .updateSelected(this.currentUser.idEtablissement, salle.idSalle, this.newName)
             .updateSelected2(this.currentUser.numero_uai, salle.idSalle, this.newName)
             .subscribe(date => {
                 this.updateList();
@@ -173,10 +172,10 @@ export class SalleComponent implements OnInit {
     edit(id) {
         // console.log(id);
         this.selectedSalleId = id;
-        for (let i = 0; i < this.allSalles.length; i++) {
-            if (this.allSalles[i].idSalle == id) {
+        for (let i = 0 ; i < this.allSalles.length; i++){
+            if (this.allSalles[i].idSalle === id) {
                 this.selectedSalle = this.allSalles[i];
-                this.newName = String(this.allSalles[i].nom);
+                this.newName = String(this.allSalles[i].nomSalle);
             }
         }
         $('html,body').scrollTop(0);

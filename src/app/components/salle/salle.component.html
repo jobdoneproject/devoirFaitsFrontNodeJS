@@ -35,7 +35,7 @@
                     <div class="form-group">
                       <ul *ngFor="let salle of allSalles | nomDisponibles: filterParNom" >
                         <li (click)="edit(salle.idSalle)" class="text-center">
-                          <button type="button" class="custom-button btn btn-light">{{ salle.nom }}</button>
+                          <button type="button" class="custom-button btn btn-light">{{ salle.nomSalle }}</button>
                         </li>
                       </ul>
                       <pre class="text-center">(Sélectionner une salle pour l'éditer)</pre>
