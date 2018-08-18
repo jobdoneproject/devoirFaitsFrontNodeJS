@@ -8,6 +8,8 @@ import {Router} from '@angular/router';
 import {UtilisateurApi} from '../../shared/sdk';
 import {Utilisateur, AccessToken} from '../../shared/sdk/models';
 import {Creneau} from '../../shared/sdk/models';
+import {SalleApi} from '../../shared/sdk';
+import { Salle } from '../../shared/sdk/models';
 import {CreneauApi} from '../../shared/sdk/';
 import {AuthGuard} from '../../shared/auth.guard';
 
@@ -24,9 +26,10 @@ export class CalendarSlotComponent implements OnInit {
     administrateur: boolean;
     deletedSlot: Creneau;
     @Input() private slotValue: Creneau;
-
-    constructor(private userService: UtilisateurApi, private creneauService: CreneauService, private router: Router) {
+    salleName: string;
+    constructor(private userService: UtilisateurApi, private salleApi: SalleApi, private creneauService: CreneauService, private router: Router) {
         this.currentUser = this.userService.getCachedCurrent();
+
 
         if (this.currentUser.privilege === 'Administrateur') {
             this.administrateur = true;
@@ -54,7 +57,6 @@ export class CalendarSlotComponent implements OnInit {
 
     public get salle(): String {
         if (this.slotValue.salleId) {
-
             return this.slotValue.salleId;
         }
       //  console.log(this.slotValue.salleId);

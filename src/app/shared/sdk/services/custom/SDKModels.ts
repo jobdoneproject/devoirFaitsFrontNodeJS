@@ -8,6 +8,7 @@ import { Groupe } from '../../models/Groupe';
 import { Geocode } from '../../models/Geocode';
 import { Etablissement } from '../../models/Etablissement';
 import { Userlog } from '../../models/Userlog';
+import { Communication } from '../../models/Communication';
 
 export interface Models { [name: string]: any }
 
@@ -23,6 +24,7 @@ export class SDKModels {
     Geocode: Geocode,
     Etablissement: Etablissement,
     Userlog: Userlog,
+    Communication: Communication,
     
   };
 

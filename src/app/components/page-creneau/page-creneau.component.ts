@@ -313,7 +313,7 @@ export class PageCreneauComponent implements OnInit {
         this.creneauService.getSlot(this.idEtablissement, this.idCreneau)
             .subscribe((data: CourseSlot) => {
                 this.editedCreneau = data;
-                this.creneauId = data.idCreneau;
+               // this.creneauId = data.idCreneau;
               //  this.editedCreneau.professeurs = data.professeurs;
                 this.date_creneau = moment.unix(this.editedCreneau.dateDebut).format('YYYY-MM-DD');
                 this.heure_debut = moment.unix(this.editedCreneau.dateDebut).format('HH:mm');

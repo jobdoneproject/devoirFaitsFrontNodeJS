@@ -56,6 +56,7 @@ import { GroupeApi } from './services/custom/Groupe';
 import { GeocodeApi } from './services/custom/Geocode';
 import { EtablissementApi } from './services/custom/Etablissement';
 import { UserlogApi } from './services/custom/Userlog';
+import { CommunicationApi } from './services/custom/Communication';
 /**
 * @module SDKBrowserModule
 * @description
@@ -94,6 +95,7 @@ export class SDKBrowserModule {
         GeocodeApi,
         EtablissementApi,
         UserlogApi,
+        CommunicationApi,
         internalStorageProvider,
         { provide: SDKStorage, useClass: StorageBrowser },
         { provide: SocketDriver, useClass: SocketBrowser }

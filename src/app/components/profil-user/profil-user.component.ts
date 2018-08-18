@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewEncapsulation, IterableDiffers} from '@angular/core';
 import {Http, Response, RequestOptions, Headers} from '@angular/http';
-import {User} from "../../model/model.user";
-import {Router} from "@angular/router";
-import {AppComponent} from "../../app.component";
-import {AuthService} from "../../services/auth.service";
+import {User} from '../../model/model.user';
+import {Router} from '@angular/router';
+import {AppComponent} from '../../app.component';
+import {AuthService} from '../../services/auth.service';
 import {Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {UtilsService} from '../../services/utils.service';
@@ -46,7 +46,8 @@ export class ProfilUserComponent implements OnInit {
 
         // Vérif user Administrateur :
         this.currentUser = this.userService.getCachedCurrent();
-        if (this.currentUser.privilege == 'Administrateur') {
+        this.idUtilisateur = this.userService.getCachedCurrent().id;
+        if (this.currentUser.privilege === 'Administrateur') {
             this.administrateur = true;
             this.editedUser = this.currentUser;
         } else {
@@ -67,7 +68,7 @@ export class ProfilUserComponent implements OnInit {
     }
 
     onSubmit() {
-        this.userService.putUser(this.editedUser.privilege.toLowerCase(), this.editedUser.idEtablissement, this.editedUser);
+        this.userService.patchAttributes(this.idUtilisateur,  {'telephone': this.editedUser.telephone});
 
 
         console.log('Form Submitted!');

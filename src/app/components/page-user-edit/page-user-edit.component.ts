@@ -34,7 +34,7 @@ export class PageUserEditComponent implements OnInit {
    currentUser: Utilisateur;
    administrateur: boolean;
    typeUtilisateur: string;
-   idUtilisateur: number;
+   idUtilisateur: string;
    editUserForm: FormGroup;
    //utilisateurs: Observable<User>;
 
@@ -50,7 +50,7 @@ export class PageUserEditComponent implements OnInit {
     // Vérif user Administrateur :
     this.currentUser = this.userService.getCachedCurrent();
 
-    if (this.currentUser.privilege == 'Administrateur') {
+    if (this.currentUser.privilege === 'Administrateur') {
       this.administrateur = true;
     }
 
@@ -59,7 +59,7 @@ export class PageUserEditComponent implements OnInit {
       this.typeUtilisateur = params['type'];
       this.idUtilisateur = params['id'];
     });
-    if (this.idUtilisateur != null) {
+    if (this.idUtilisateur !== null) {
       this.initUser();
     } else {
       this.newUser();
@@ -72,14 +72,19 @@ export class PageUserEditComponent implements OnInit {
 
   }
 
-  initUser() {
-    this.userService.find({ fields: {id: this.idUtilisateur} })
-   // getUser(this.typeUtilisateur, this.currentUser.idEtablissement, this.idUtilisateur)
-      .map((Utilisateur) => {this.editedUser; })
-      .subscribe();
-  }
+    initUser(){
+        this.userService.findById(this.idUtilisateur)
+            .subscribe((value: Utilisateur) => {
+              this.editedUser = value;
+              console.log(value);
+            }, (error) => {
+                console.log(error);
+            }, () => {
+                console.log('Fini !');
+            });
+    }
 
-  newUser(){
+  newUser() {
     this.editedUser = new Utilisateur();
     this.editedUser.numero_uai = this.currentUser.numero_uai;
     this.editedUser.nom = null;
@@ -101,7 +106,7 @@ export class PageUserEditComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.idUtilisateur != null) {
+    if (this.idUtilisateur !== null) {
       this.userService.putUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.editedUser);
     } else {
      // this.userService.postUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.editedUser);
@@ -113,7 +118,7 @@ export class PageUserEditComponent implements OnInit {
 
   onSupress() {
     if(confirm('Voulez-vous vraiment supprimer ' + this.editedUser.nom + ' ' + this.editedUser.prenom + ' ?')){
-      this.userService.deleteUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.idUtilisateur);
+      this.userService.deleteById(this.idUtilisateur);
       console.log('Form Suppress!');
       this.router.navigate(['liste/' + this.typeUtilisateur]);
     }

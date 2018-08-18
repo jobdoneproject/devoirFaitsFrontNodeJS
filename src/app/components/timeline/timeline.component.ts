@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../../services/user.service";
-import {User} from "../../model/model.user";
-import {Message} from "../../model/model.message";
+import { User } from "../../model/model.user";
+import { Message } from "../../model/model.message";
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { Observable, Subscriber, Subscription, BehaviorSubject, AsyncSubject, Subject } from 'rxjs';
+import { UtilisateurApi } from '../../shared/sdk';
+import { AuthGuard } from '../../shared/auth.guard';
+import { Utilisateur } from '../../shared/sdk/models';
 import * as moment from 'moment';
 
 @Component({
@@ -13,17 +16,17 @@ import * as moment from 'moment';
   styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnInit {
-  currentUser: User;
-  idEleve: number;
-  idEtablissement: number;
+  currentUser: Utilisateur;
+  idEleve: string;
+  idEtablissement: string;
   messages: Message[];
   messages$: Subject<Message>;
   dateMessage: any;
   newMessage: Message = new Message;
-  titrePage: String = "Messagerie";
+  titrePage: String = 'Messagerie';
 
   constructor(
-    private userService: UserService,
+    private userService: UtilisateurApi,
     private messageService: MessageService,
     public route: ActivatedRoute,
 
@@ -33,9 +36,9 @@ export class TimelineComponent implements OnInit {
     });
     this.currentUser = this.userService.getCurrentUserLogged();
 
-    this.idEtablissement = this.currentUser.idEtablissement;
+    this.idEtablissement = this.currentUser.numero_uai;
 
-    this.messageService.getMessages(this.idEleve, this.currentUser.idEtablissement).subscribe(previousMessages => {
+    this.messageService.getMessages(this.idEleve, this.currentUser.numero_uai).subscribe(previousMessages => {
       this.messages = previousMessages;
       this.messages$ = new BehaviorSubject<Message>(undefined);
       this.messages$.subscribe(msg => {
@@ -44,8 +47,8 @@ export class TimelineComponent implements OnInit {
           this.messages.push(msg);
           this.newMessage = new Message();
         }
-      })
-    })
+      });
+    });
   }
 
   ngOnInit() {
@@ -66,11 +69,11 @@ export class TimelineComponent implements OnInit {
   }
 
   afterSendMessage(){
-    document.forms["newMessage"].reset()
+    document.forms['newMessage'].reset()
   }
 
   updateMessages(message:Message) {
-    console.log("Data received " + message.contenu);
+    console.log('Data received ' + message.contenu);
     this.messages$.next(message);
 
   }

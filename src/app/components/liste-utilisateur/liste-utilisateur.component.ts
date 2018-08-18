@@ -107,8 +107,8 @@ export class ListeUtilisateurComponent implements OnInit {
 
     }
 
-    redirectEditUser(idUtilisateur: number) {
-        this.router.navigate(['edition-utilisateur/' + this.typeUtilisateur + '/' + this.idUtilisateur]);
+    redirectEditUser(idUtilisateur: string) {
+        this.router.navigate(['edition-utilisateur/' + this.typeUtilisateur + '/' + idUtilisateur]);
     }
 
     redirectNewUser() {
@@ -195,7 +195,8 @@ export class ListeUtilisateurComponent implements OnInit {
             if (confirm('Voulez-vous vraiment supprimer ' + this.selectedUtilisateurs.length + ' ' + this.typeUtilisateur + '(s) ?')) {
               //  this.userService.deleteUsers(this.typeUtilisateur, this.currentUser.idEtablissement, this.selectedUtilisateurs);
                 this.userService.deleteById(this.selectedUtilisateurs);
-                this.userService.getUsers(this.typeUtilisateur, this.currentUser.idEtablissement).subscribe(newUsers => {
+
+                this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': this.typeUtilisateur}} ).subscribe(newUsers => {
                     this.utilisateurs$.next(newUsers);
                 });
                 this.selectedUtilisateurs.splice(0, this.selectedUtilisateurs.length);

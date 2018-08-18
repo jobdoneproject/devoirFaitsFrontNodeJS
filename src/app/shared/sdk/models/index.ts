@@ -7,5 +7,6 @@ export * from './Groupe';
 export * from './Geocode';
 export * from './Etablissement';
 export * from './Userlog';
+export * from './Communication';
 export * from './BaseModels';
 export * from './FireLoopRef';

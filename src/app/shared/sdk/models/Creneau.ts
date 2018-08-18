@@ -7,6 +7,7 @@ export interface CreneauInterface {
   "dateFin": number;
   "professeursCreneau": any;
   "elevesCreneau": any;
+  "id"?: any;
   "salleId"?: any;
   "etablissementId"?: string;
 }
@@ -17,6 +18,7 @@ export class Creneau implements CreneauInterface {
   "dateFin": number;
   "professeursCreneau": any;
   "elevesCreneau": any;
+  "id": any;
   "salleId": any;
   "etablissementId": string;
   constructor(data?: CreneauInterface) {
@@ -50,7 +52,7 @@ export class Creneau implements CreneauInterface {
       name: 'Creneau',
       plural: 'creneaux',
       path: 'creneaux',
-      idName: 'idCreneau',
+      idName: 'id',
       properties: {
         "idCreneau": {
           name: 'idCreneau',
@@ -70,6 +72,10 @@ export class Creneau implements CreneauInterface {
         },
         "elevesCreneau": {
           name: 'elevesCreneau',
+          type: 'any'
+        },
+        "id": {
+          name: 'id',
           type: 'any'
         },
         "salleId": {

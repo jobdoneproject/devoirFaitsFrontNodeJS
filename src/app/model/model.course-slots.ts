@@ -10,4 +10,5 @@ export class CourseSlot {
     professeurs: Utilisateur[];
     eleves: Utilisateur[];
     salle: Salle;
+    salleName: string;
 }
