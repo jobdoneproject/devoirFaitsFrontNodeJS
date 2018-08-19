@@ -25,7 +25,7 @@ export class CreneauService {
         return this.httpClient.get(environment.API_URL + '/Etablissements/' + idEtablissement + '/creneaux/' + idCreneau);
     }
 
-    createSlot(debut: number, fin: number, elevesCreneau, professeursCreneau, salleId: string, etablissementId: string) {
+    createSlot(debut: number, fin: number, elevesCreneau, professeursCreneau, idSalle: string, etablissementId: string) {
 
         const newCreneau: Creneau = {
             idCreneau: null,
@@ -40,7 +40,7 @@ export class CreneauService {
         newCreneau.professeursCreneau = professeursCreneau;
         newCreneau.dateDebut = debut;
         newCreneau.dateFin = fin;
-        newCreneau.salleId = salleId;
+        newCreneau.salleId = idSalle;
         this.postSlot(newCreneau, etablissementId);
     }
 
@@ -60,7 +60,7 @@ export class CreneauService {
         });
     }
 
-    prepareEditedTimeSlot(idCreneau: string, debut: number, fin: number, eleves, profs, salleId: string, idEtablissement: string) {
+    prepareEditedTimeSlot(idCreneau: string, debut: number, fin: number, eleves, profs, idSalle: string, idEtablissement: string) {
         const editedTimeSlot: Creneau = {
             idCreneau: null,
             dateDebut: 0, dateFin: 0,
@@ -72,7 +72,7 @@ export class CreneauService {
         editedTimeSlot.idCreneau = idCreneau;
         editedTimeSlot.dateDebut = debut;
         editedTimeSlot.dateFin = fin;
-        editedTimeSlot.salleId = salleId;
+        editedTimeSlot.salleId = idSalle;
         //  this.putSlot(editedTimeSlot, idEtablissement,);
         this.putSlot(editedTimeSlot, idEtablissement, idCreneau);
     }

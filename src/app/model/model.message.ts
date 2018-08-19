@@ -1,10 +1,11 @@
 import { User } from "./model.user";
+import {Utilisateur} from '../shared/sdk/models';
 
 export class Message {
     idMessage: number;
     contenu: String;
     dateMessage: number;
-    redacteur: User;
+    redacteur: Utilisateur;
     //utilisateur: User;
-    eleve: User;
+    eleve: Utilisateur;
 }

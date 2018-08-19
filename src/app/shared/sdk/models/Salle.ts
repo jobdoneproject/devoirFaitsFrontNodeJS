@@ -5,14 +5,14 @@ import {
 
 declare var Object: any;
 export interface SalleInterface {
-  "idSalle"?: any;
+  "idSalle"?: string;
   "nomSalle": string;
   "etablissementId"?: string;
   salleCreneaux?: Creneau[];
 }
 
 export class Salle implements SalleInterface {
-  "idSalle": any;
+  "idSalle": string;
   "nomSalle": string;
   "etablissementId": string;
   salleCreneaux: Creneau[];
@@ -51,7 +51,7 @@ export class Salle implements SalleInterface {
       properties: {
         "idSalle": {
           name: 'idSalle',
-          type: 'any'
+          type: 'string'
         },
         "nomSalle": {
           name: 'nomSalle',

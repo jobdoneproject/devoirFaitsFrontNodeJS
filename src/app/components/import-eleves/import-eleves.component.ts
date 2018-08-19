@@ -17,7 +17,7 @@ export class ImportElevesComponent implements OnInit {
     currentUser: Utilisateur;
     fileContent;
 
-    constructor(private userService: UtilisateurApi,public utilisateurService: UtilisateurApi,
+    constructor(private userService: UtilisateurApi,public utilisateurService: UserService,
                 public uploaderService: Uploader) {
         this.currentUser = this.userService.getCachedCurrent();
         if (this.currentUser.privilege == 'Administrateur'){

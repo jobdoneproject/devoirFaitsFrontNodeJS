@@ -18,13 +18,13 @@ export class MessageService {
 
   ) { }
 
-  getMessages(idEleve:number , idEtablissement: number) {
-    const url = environment.API_URL +  '/etablissements/' + idEtablissement + '/messages/eleves/' + idEleve;
-    return this.http.get(url).pipe(map((resp: Response)=>resp.json()));
+  getMessages(idEleve:string , idEtablissement: string) {
+    const url = environment.API_URL +  '/Etablissements/' + idEtablissement + '/messages/eleves/' + idEleve;
+    return this.http.get(url).pipe(map((resp: Response) =>resp.json()));
   }
 
-  postMessage(idEtablissement: number,message: Message ){
-    const url = environment.API_URL +  '/etablissements/' + idEtablissement + '/messages';
+  postMessage(idEtablissement: string, message: Message ){
+    const url = environment.API_URL +  '/Etablissements/' + idEtablissement + '/messages';
     return this.http.post(url, message, this.options);
   }
 }

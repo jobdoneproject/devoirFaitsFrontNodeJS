@@ -2,24 +2,22 @@
 
 declare var Object: any;
 export interface CreneauInterface {
-  "idCreneau"?: any;
+  "idCreneau"?: string;
   "dateDebut": number;
   "dateFin": number;
   "professeursCreneau": any;
   "elevesCreneau": any;
-  "id"?: any;
-  "salleId"?: any;
+  "salleId"?: string;
   "etablissementId"?: string;
 }
 
 export class Creneau implements CreneauInterface {
-  "idCreneau": any;
+  "idCreneau": string;
   "dateDebut": number;
   "dateFin": number;
   "professeursCreneau": any;
   "elevesCreneau": any;
-  "id": any;
-  "salleId": any;
+  "salleId": string;
   "etablissementId": string;
   constructor(data?: CreneauInterface) {
     Object.assign(this, data);
@@ -52,11 +50,11 @@ export class Creneau implements CreneauInterface {
       name: 'Creneau',
       plural: 'creneaux',
       path: 'creneaux',
-      idName: 'id',
+      idName: 'idCreneau',
       properties: {
         "idCreneau": {
           name: 'idCreneau',
-          type: 'any'
+          type: 'string'
         },
         "dateDebut": {
           name: 'dateDebut',
@@ -74,13 +72,9 @@ export class Creneau implements CreneauInterface {
           name: 'elevesCreneau',
           type: 'any'
         },
-        "id": {
-          name: 'id',
-          type: 'any'
-        },
         "salleId": {
           name: 'salleId',
-          type: 'any'
+          type: 'string'
         },
         "etablissementId": {
           name: 'etablissementId',
