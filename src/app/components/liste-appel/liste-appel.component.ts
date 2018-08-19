@@ -25,7 +25,7 @@ export class ListeAppelComponent implements OnInit {
     salleId: string;
     idCreneau: string;
     editedCreneau: Creneau;
-    creneauId: number;
+    creneauId: string;
     selectedProfesseurs: Utilisateur[] = [];
     selectedEleves: Utilisateur[] = [];
     titre: String;

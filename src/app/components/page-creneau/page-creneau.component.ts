@@ -231,7 +231,7 @@ export class PageCreneauComponent implements OnInit {
         this.allSalleEtb.forEach((salle) => {
             if (value === salle.idSalle) {
                 console.log('found Id : ' + value);
-                this.selectedSallePut = salle.nom;
+                this.selectedSallePut = salle.nomSalle;
                 this.selectedSalleId = salle.idSalle;
             }
         });
@@ -313,6 +313,7 @@ export class PageCreneauComponent implements OnInit {
         this.creneauService.getSlot(this.idEtablissement, this.idCreneau)
             .subscribe((data: CourseSlot) => {
                 this.editedCreneau = data;
+                console.log(this.editedCreneau);
                // this.creneauId = data.idCreneau;
               //  this.editedCreneau.professeurs = data.professeurs;
                 this.date_creneau = moment.unix(this.editedCreneau.dateDebut).format('YYYY-MM-DD');
@@ -333,7 +334,7 @@ export class PageCreneauComponent implements OnInit {
                         this.allSalleEtb = data;
 
                         this.allSalleEtb.forEach((salle) => {
-                            if (this.editedCreneau.salleId === salle.nomSalle) {
+                            if (this.editedCreneau.salleId === salle.idSalle) {
                                 this.selectedSalle = salle.idSalle;
                             }
                         });

@@ -32,7 +32,7 @@ export class RoomService {
         return this.http.get(this.url).pipe(map((resp: Response) => resp.json()));
     }
 
-    getById(etablissementId: string, id: number) {
+    getById(etablissementId: string, id: string) {
         this.url = environment.API_URL + '/Etablissements/' + etablissementId + '/Salles/' + id + '/';
         return this.http.get(this.url).pipe(map((resp: Response) => resp.json()));
     }

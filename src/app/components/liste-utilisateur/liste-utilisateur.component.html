@@ -88,7 +88,7 @@
                       <strong>{{ utilisateur.nom }}</strong><em> {{ utilisateur.prenom }}</em>
                   </td>
                   <td *ngIf="typeUtilisateur == 'eleve'" (click)="redirectEditUser(utilisateur.id);" class="hiddenMobile">{{ utilisateur.classeName }}</td>
-                  <td (click)="redirectEditUser(utilisateur.id);" class="hiddenMobile">{{ utilisateur.mail }}</td>
+                  <td (click)="redirectEditUser(utilisateur.id);" class="hiddenMobile">{{ utilisateur.email }}</td>
                   <td>
                     <label class="toggle-check">
                       <input type="checkbox" class="toggle-check-input" [(ngModel)]="utilisateur.disponible" (click)="updateDisponibilite(utilisateur.id)"/>

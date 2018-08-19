@@ -51,11 +51,16 @@ export class ProfilUserComponent implements OnInit {
             this.administrateur = true;
             this.editedUser = this.currentUser;
         } else {
-            this.userService.getUser(this.currentUser.privilege.toLowerCase(), this.currentUser.idEtablissement, this.currentUser.id)
-                .map((value: Utilisateur) => {
+            this.userService.findById(this.idUtilisateur)
+                .subscribe((value: Utilisateur) => {
                     this.editedUser = value;
-                })
-                .subscribe();
+                    console.log(value);
+                }, (error) => {
+                    console.log(error);
+                }, () => {
+                    console.log('Fini !');
+                });
+
         }
     }
 
@@ -77,7 +82,7 @@ export class ProfilUserComponent implements OnInit {
 
     onSupress() {
         if (confirm('Voulez-vous vraiment supprimer ' + this.editedUser.nom + ' ' + this.editedUser.prenom + ' ?')) {
-            this.userService.deleteUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.idUtilisateur);
+            this.userService.deleteById(this.idUtilisateur);
             console.log('Form Suppress!');
             this.router.navigate(['liste/' + this.typeUtilisateur]);
         }

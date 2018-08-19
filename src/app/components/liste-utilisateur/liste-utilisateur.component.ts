@@ -51,6 +51,7 @@ export class ListeUtilisateurComponent implements OnInit {
     isSelected = false;
     actionDemandee: string;
 
+
     constructor(
         public authService: AuthGuard,
         public router: Router,
@@ -60,7 +61,6 @@ export class ListeUtilisateurComponent implements OnInit {
         private etablissementAPI: EtablissementApi,
         private location: Location,
     ) {
-
         this.route.params.subscribe(params => {
             this.typeUtilisateur = params['type'];
         });
@@ -86,7 +86,7 @@ export class ListeUtilisateurComponent implements OnInit {
                     if (this.classeDisponibles.indexOf(String(utilisateur.classeName)) === -1) {
                         this.classeDisponibles.push(utilisateur.classeName, '');
                         // Dynamically add a column to the model (added in memory because no need to data persist it
-                        utilisateur['selected'] = false;
+                        // utilisateur['selected'] = false;
                     }
                 });
             });

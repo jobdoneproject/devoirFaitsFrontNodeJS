@@ -54,13 +54,22 @@ export class PageUserEditComponent implements OnInit {
       this.administrateur = true;
     }
 
-
     this.route.params.subscribe(params => {
       this.typeUtilisateur = params['type'];
       this.idUtilisateur = params['id'];
     });
     if (this.idUtilisateur !== null) {
-      this.initUser();
+        this.editedUser = new Utilisateur();
+        this.userService.findById(this.idUtilisateur)
+            .subscribe((value: Utilisateur) => {
+                this.editedUser = value;
+                console.log(this.editedUser);
+            }, (error) => {
+                console.log(error);
+            }, () => {
+                console.log('Fini !');
+            });
+
     } else {
       this.newUser();
     }
@@ -72,16 +81,16 @@ export class PageUserEditComponent implements OnInit {
 
   }
 
-    initUser(){
+    initUser() {/*
         this.userService.findById(this.idUtilisateur)
             .subscribe((value: Utilisateur) => {
               this.editedUser = value;
-              console.log(value);
+              console.log(this.editedUser);
             }, (error) => {
                 console.log(error);
             }, () => {
                 console.log('Fini !');
-            });
+            });*/
     }
 
   newUser() {
@@ -107,7 +116,37 @@ export class PageUserEditComponent implements OnInit {
 
   onSubmit() {
     if (this.idUtilisateur !== null) {
-      this.userService.putUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.editedUser);
+ //       this.userService.patchOrCreate(this.editedUser);
+        this.userService.updateAttributes(this.editedUser.id,
+            {  'nom': this.editedUser.nom,
+                'prenom': this.editedUser.prenom,
+                'disponible': this.editedUser.disponible,
+               'classeName': this.editedUser.classeName,
+                'password': this.editedUser.password,
+                'privilege': this.editedUser.privilege,
+                'ville': this.editedUser.ville,
+                'actif': this.editedUser.actif,
+                'telephone': this.editedUser.telephone,
+                'email': this.editedUser.email,
+                'numero_uai': this.editedUser.numero_uai
+            }
+        )
+            .subscribe((value: Utilisateur) => {
+                this.editedUser = value;
+                console.log(value);
+            }, (error) => {
+                console.log(error);
+            }, () => {
+                console.log('Updaté !');
+            });
+
+
+
+       // ;
+
+
+
+      //(this.typeUtilisateur, this.editedUser.idEtablissement, this.editedUser);
     } else {
      // this.userService.postUser(this.typeUtilisateur, this.editedUser.idEtablissement, this.editedUser);
         this.userService.patchOrCreate(this.editedUser);

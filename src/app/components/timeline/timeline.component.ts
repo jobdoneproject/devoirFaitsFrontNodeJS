@@ -8,6 +8,7 @@ import { Observable, Subscriber, Subscription, BehaviorSubject, AsyncSubject, Su
 import { UtilisateurApi } from '../../shared/sdk';
 import { AuthGuard } from '../../shared/auth.guard';
 import { Utilisateur } from '../../shared/sdk/models';
+import {EtablissementApi} from '../../shared/sdk';
 import * as moment from 'moment';
 
 @Component({
@@ -27,6 +28,7 @@ export class TimelineComponent implements OnInit {
 
   constructor(
     private userService: UtilisateurApi,
+    private etablissementAPI: EtablissementApi,
     private messageService: MessageService,
     public route: ActivatedRoute,
 
@@ -34,7 +36,8 @@ export class TimelineComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.idEleve = params['id'];
     });
-    this.currentUser = this.userService.getCurrentUserLogged();
+  //  this.currentUser = this.userService.getCurrentUserLogged();
+      this.currentUser = this.userService.getCachedCurrent();
 
     this.idEtablissement = this.currentUser.numero_uai;
 
@@ -58,7 +61,9 @@ export class TimelineComponent implements OnInit {
     this.newMessage.redacteur = this.currentUser;
     this.newMessage.dateMessage = moment().unix();
 
-    this.userService.getUser("eleve", this.idEtablissement, this.idEleve).subscribe(user => {
+    this.etablissementAPI.getUtilisateurs(this.currentUser.numero_uai, {where: {'privilege': 'eleve', 'id': this.idEleve}} )
+    // this.userService.getUser('eleve', this.idEtablissement, this.idEleve)
+        .subscribe(user => {
       this.newMessage.eleve = user;
       this.messageService.postMessage(this.idEtablissement, this.newMessage).subscribe(data =>
         this.updateMessages(data.json())

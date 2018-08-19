@@ -9,9 +9,12 @@ import {UtilisateurApi} from '../../shared/sdk';
 import {Utilisateur, AccessToken} from '../../shared/sdk/models';
 import {Creneau} from '../../shared/sdk/models';
 import {SalleApi} from '../../shared/sdk';
+import {RoomService} from '../../services/room.service';
+import {Room} from '../../model/model.room';
 import { Salle } from '../../shared/sdk/models';
 import {CreneauApi} from '../../shared/sdk/';
 import {AuthGuard} from '../../shared/auth.guard';
+import {EtablissementApi} from '../../shared/sdk';
 
 
 @Component({
@@ -25,10 +28,12 @@ export class CalendarSlotComponent implements OnInit {
     @Output() onDeleteEvent = new EventEmitter<any>();
     administrateur: boolean;
     deletedSlot: Creneau;
-    @Input() private slotValue: Creneau;
+    idEtablissement: string;
     salleName: string;
-    constructor(private userService: UtilisateurApi, private salleApi: SalleApi, private creneauService: CreneauService, private router: Router) {
+    @Input() private slotValue: Creneau;
+    constructor(private userService: UtilisateurApi, private etablissementAPI: EtablissementApi, private salleApi: SalleApi, private roomsv: RoomService, private creneauService: CreneauService, private router: Router) {
         this.currentUser = this.userService.getCachedCurrent();
+        this.idEtablissement = this.currentUser.numero_uai;
 
 
         if (this.currentUser.privilege === 'Administrateur') {
@@ -55,13 +60,12 @@ export class CalendarSlotComponent implements OnInit {
         return date;
     }
 
-    public get salle(): String {
-        if (this.slotValue.salleId) {
-            return this.slotValue.salleId;
+      public get salle(): String {
+            if (this.slotValue.salleId) {
+                return this.slotValue.salleId;
+            }
+            return ' non définie';
         }
-      //  console.log(this.slotValue.salleId);
-        return ' non définie';
-    }
 
     public get adresseCreneau(): String {
         let adresse: String;
