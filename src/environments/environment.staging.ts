@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
+  // tslint:disable-next-line:quotemark
   API_URL : "http://app-1bcf8069-9557-4a62-a861-40e9eac7cbd3.cleverapps.io/api/v1",
 };
