@@ -61,7 +61,9 @@ export class CalendarSlotComponent implements OnInit {
     }
 
       public get salle(): String {
+
             if (this.slotValue.salleId) {
+
                 return this.slotValue.salleId;
             }
             return ' non définie';

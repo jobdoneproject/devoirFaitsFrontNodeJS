@@ -10,4 +10,5 @@ export class CourseSlot {
     professeursCreneau: Utilisateur[];
     elevesCreneau: Utilisateur[];
     salleId: string;
+    salleName: string;
 }

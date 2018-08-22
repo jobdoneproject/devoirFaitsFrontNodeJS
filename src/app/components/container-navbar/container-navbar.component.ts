@@ -29,16 +29,16 @@ export class ContainerNavbarComponent implements OnInit {
   administrateur: boolean;
   professeur: boolean;
   eleve: boolean;
-  url:string;
+  url: string;
   etablissements: Observable<any> ;
 
   constructor(private userService: UtilisateurApi, public authService: AuthGuard, public router: Router,private http: Http) {
     this.currentUser = this.userService.getCachedCurrent();
-    if (this.currentUser.privilege == "Administrateur"){
+    if (this.currentUser.privilege === 'Administrateur') {
       this.administrateur = true;
-    }else if (this.currentUser.privilege == 'Professeur'){
+    } else if (this.currentUser.privilege === 'Professeur') {
       this.professeur = true;
-    }else{
+    } else{
       this.eleve = true;
     }
     // @ts-ignore
@@ -47,7 +47,7 @@ export class ContainerNavbarComponent implements OnInit {
      this.etablissements = this.http.get(this.url).pipe(map((resp: Response) => resp.json()));
 
     this.etablissements.forEach(etablissement => {
-      this.nomEtablissement = etablissement.nomEtablissement;
+      this.nomEtablissement = etablissement.appellation_officielle;
     });
   }
 

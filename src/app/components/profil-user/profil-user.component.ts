@@ -68,7 +68,7 @@ export class ProfilUserComponent implements OnInit {
 
     }
 
-    nReset() {
+    onReset() {
         this.router.navigate(['profile']);
     }
 
