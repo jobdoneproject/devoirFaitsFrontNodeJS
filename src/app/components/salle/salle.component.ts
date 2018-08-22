@@ -180,5 +180,8 @@ export class SalleComponent implements OnInit {
         }
         $('html,body').scrollTop(0);
     }
+    onReset() {
+        this.router.navigate(['profile']);
+    }
 
 }

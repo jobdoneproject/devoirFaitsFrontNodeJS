@@ -1,6 +1,6 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   
-  <div class="navbar-menu-wrapper d-flex align-items-center">Collège {{nomEtablissement}}
+    <div class="navbar-menu-wrapper d-flex align-items-center">Collège {{nomEtablissement}}
     <img src="../../../assets/template-wcs/img/dflogomini.png" alt="logo"/>
     <!--<h4>DEVOIRS FAITS</h4>-->
   <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
@@ -8,7 +8,7 @@
             <a class="nav-link" href="profile">Calendrier</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="messages/{{currentUser.idUtilisateur}}" *ngIf="eleve">Messagerie</a>
+            <a class="nav-link" href="messages/{{currentUser.id}}" *ngIf="eleve">Messagerie</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="liste/eleve" *ngIf="administrateur">Élèves</a>
