@@ -5,9 +5,10 @@
 
 export const environment = {
   production: false,
-  //si déployé en mode debug dans Code
-  //API_URL : "http://localhost:8080"
-
-  //Si deployé par maven en ligne de commande tomcat7:deploy ou par ng serve car le service tomcat ecoute sur 8080
+  // si déployé en mode debug dans Code
+  // tslint:disable-next-line:comment-format
+  // API_URL : "http://localhost:8080"
+  // Si deployé par maven en ligne de commande tomcat7:deploy ou par ng serve car le service tomcat ecoute sur 8080
+  // tslint:disable-next-line:quotemark
   API_URL : "http://localhost:3000/api/v1"
 };
