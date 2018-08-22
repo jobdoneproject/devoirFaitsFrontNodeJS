@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  API_URL : "http://app-28286c7a-6571-43b1-96b0-6352d129ffdd.cleverapps.io/devoirsfaits",
+  API_URL : "http://app-1bcf8069-9557-4a62-a861-40e9eac7cbd3.cleverapps.io/api/v1",
 };
