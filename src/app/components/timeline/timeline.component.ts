@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from "../../services/user.service";
-import { User } from "../../model/model.user";
+// import { UserService } from "../../services/user.service";
+// import { User } from "../../model/model.user";
+// tslint:disable-next-line:quotemark
 import { Message } from "../../model/model.message";
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../../services/message.service';
